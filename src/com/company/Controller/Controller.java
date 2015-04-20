@@ -11,18 +11,13 @@ import java.awt.*;
 public class Controller {
     private enum Actions {CLOSE_APP};
     private Gui MainWindow; // klasa glownego okna
-    /* Wymiary maksymalne okna */
-    private int MaxWidth = 300;
-    private int MaxHeight = 300;
     /* Wymiary minimalne okna */
     private int MinWidth = 600;
     private int MinHeight = 600;
     //------------------------//
-    public Controller()
+    public Controller() // Konstruktor kontrolera tworzacy glowne okno aplikacji
     {
-        Dimension MaxSize = new Dimension(MaxWidth, MaxHeight);
         Dimension MinSize = new Dimension(MinWidth, MinHeight);
-
         MainWindow = new Gui();
         MainWindow.pack();
         MainWindow.setResizable(false);
