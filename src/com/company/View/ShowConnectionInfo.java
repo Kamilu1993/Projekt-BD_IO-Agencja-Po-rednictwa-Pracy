@@ -15,7 +15,7 @@ public class ShowConnectionInfo implements Runnable {
     private JLabel ImageLabel;
     public ShowConnectionInfo() {
         t = new Thread(this); // stworzenie nowego wątku dla tej klasy
-        waitImg = new ImageIcon(Login.class.getClassLoader().getResource("loading.gif").getPath());
+        waitImg = new ImageIcon(Login.class.getResource("Images/loading.gif").getPath());
 
     } // Konstrutkor tworzacy nowy watek oraz wczytujacy plik "loading.gif"
     public void run() {
@@ -28,13 +28,18 @@ public class ShowConnectionInfo implements Runnable {
         Info.setLocationRelativeTo(null);
         Info.setTitle("Proszę czekać...");
 
-        ImageLabel = new JLabel("Proszę czekać... trwa łączenie z bazą danych...");
+        ImageLabel = new JLabel();
+
         ImageLabel.setIcon(waitImg);
         ImageLabel.setLayout(null);
         ImageLabel.setVisible(true);
 
         Info.add(ImageLabel);
     } // Klasa wątku, startowana z klasy kontrolera.
+    public void SetTitle(String title)
+    {
+        ImageLabel.setText(title);
+    }
     public void ShowDialog() {
         Info.setVisible(true);
     } // Pokazanie okienka wczytywania

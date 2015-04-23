@@ -14,25 +14,10 @@ public class Login extends JFrame {
     private JFrame LoginFrame;
     private JPasswordField PasswordField;
     private JTextField LoginField;
-    private JLabel PasswordText, LoginText;
-    private JButton BtLogInto;
+    private JLabel PasswordText, LoginText, InfoText;
+    private JButton BtLogInto, BtRegInto;
 
-    public void setErrorCode(int err_code) {
-        switch (err_code){
-            case 1:
-                ErrorMessage("Proszę podać właściwy login i hasło.");
-            case 2:
-                ErrorMessage("Proszę podać właściwy login.");
-            case 3:
-                ErrorMessage("Proszę podać właściwe hasło.");
-            case 4:
-                ErrorMessage("Wystąpił błąd połączenia z bazą danych. Prosimy spróbować ponownie.");
-        }
 
-    } // Klasa która odczytuje kod błędu a następnie przekazuje odpowiednią informacje do wyswietlenia
-    private void ErrorMessage(String ErrMessage) {
-        JOptionPane.showMessageDialog(null, ErrMessage, "InfoBox: " + "lold", JOptionPane.INFORMATION_MESSAGE);
-    } // Wyswietlenie komunikatow błędów
     public String GetPassword() {
         String password = String.valueOf(PasswordField.getPassword());
         return password;
@@ -45,13 +30,16 @@ public class Login extends JFrame {
     public Login() {
         int width = 250, height = 250;
         LoginFrame = new JFrame();
-        LoginFrame.setContentPane(new JLabel(new ImageIcon(Login.class.getClassLoader().getResource("blue_bg.jpg").getPath()))); // wczytanie tła
+        LoginFrame.setContentPane(new JLabel(new ImageIcon(Login.class.getResource("Images/blue_bg.jpg").getPath()))); // wczytanie tła
         LoginFrame.setTitle("Zaloguj się");
         LoginFrame.setVisible(true);
         LoginFrame.setLocationRelativeTo(null); // wysrodkowanie aplikacji
         LoginFrame.setSize(width, height);
         LoginFrame.setResizable(false);
         setDefaultCloseOperation(LoginFrame.EXIT_ON_CLOSE);
+        //REJESTRACJA
+        SetInfoText(100,25);
+
         //LOGIN
         SetLoginText(100,25);
         SetLoginInput(100, 25);
@@ -59,6 +47,7 @@ public class Login extends JFrame {
         SetPasswordText(100,25);
         SetPasswordInput(100, 25);
         // PRZYCISK
+        SetBtRegInto(100, 35, "Zarejestruj");
         SetBtLogInto(100, 35, "Zaloguj");
 
 
@@ -67,6 +56,7 @@ public class Login extends JFrame {
     public void addController(ActionListener controller){
 
         BtLogInto.addActionListener(controller); // nasłuchiwanie czy nie został wcisnięty przycisk "zaloguj"
+        BtRegInto.addActionListener(controller); // nasłuchiwanie czy nie został wcisnięty przycisk "zarejestruj"
     } // Metoda dodania słuchacza (kontrolera)
     /*Ustawienia wysokości/rozmiaru/pozycji pól JLabel,JButton,JTextField,JPasswordField */
     private void SetLoginInput(int width, int height){
@@ -80,6 +70,19 @@ public class Login extends JFrame {
         LoginField.setLocation(FrameHeight/2-width/2, 90);
         LoginField.setVisible(true);
         LoginFrame.add(LoginField);
+    }
+    private void SetInfoText(int width, int height) {
+        int FrameWidth = LoginFrame.getWidth();
+        int FrameHeight = LoginFrame.getHeight();
+
+        InfoText = new JLabel();
+        InfoText.setText("Nie masz konta?");
+        InfoText.setForeground(Color.white);
+        InfoText.setLayout(null);
+        InfoText.setSize(width, height);
+        InfoText.setLocation(FrameHeight/2-width/2, 10);
+        InfoText.setVisible(true);
+        LoginFrame.add(InfoText);
     }
     private void SetLoginText(int width, int height) {
         int FrameWidth = LoginFrame.getWidth();
@@ -128,5 +131,16 @@ public class Login extends JFrame {
         BtLogInto.setSize(100, 25);
         BtLogInto.setLocation(FrameHeight/2-width/2, 180);
         BtLogInto.setVisible(true);
+    }
+    private void SetBtRegInto(int width, int height, String caption) {
+        int FrameWidth = LoginFrame.getWidth();
+        int FrameHeight = LoginFrame.getHeight();
+
+        BtRegInto = new JButton(caption);
+        BtRegInto.setLayout(null);
+        LoginFrame.add(BtRegInto);
+        BtRegInto.setSize(100, 25);
+        BtRegInto.setLocation(FrameHeight/2-width/2, 30);
+        BtRegInto.setVisible(true);
     }
 }

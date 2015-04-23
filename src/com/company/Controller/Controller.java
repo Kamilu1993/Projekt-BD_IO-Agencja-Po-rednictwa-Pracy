@@ -1,9 +1,7 @@
 package com.company.Controller;
 
-import com.company.View.Gui;
-import com.company.View.Login;
+import com.company.View.*;
 import com.company.Model.Model;
-import com.company.View.ShowConnectionInfo;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
@@ -11,67 +9,94 @@ import java.awt.event.ActionListener;
 /**
  *
  */
-public class Controller extends SwingWorker implements ActionListener{
+public class Controller implements ActionListener{
     private Login theLogin;
     private Gui theGui;
     private Model theModel;
     ShowConnectionInfo info;
+    RegisterForm RegForm;
+    ShowMessage ErrorMsg;
 
-    protected Integer doInBackground() throws Exception {
-        // Start
-        publish("Start");
-        setProgress(1);
-
-        // More work was done
-        publish("More work was done");
-        setProgress(10);
-
-        // Complete
-        publish("Complete");
-        setProgress(100);
-        return 1;
-    }
 
     public void actionPerformed(java.awt.event.ActionEvent e){
         JButton b = (JButton)e.getSource();
+        info = new ShowConnectionInfo();
        if(b.getText()=="Zaloguj")
        {
-           info = new ShowConnectionInfo();
-
            int isInputGood;
            isInputGood = theModel.CheckInput(theLogin.GetUsername(),theLogin.GetPassword());
 
            if(isInputGood==0){
-               final Runnable doHelloWorld = new Runnable() {
+               final Runnable run = new Runnable() {
                    public void run() {
-                       info.run();
+
                        info.ShowDialog();
                    }
                };
                Thread appThread = new Thread() {
                    public void run() {
+                       info.run();
+                       info.SetTitle("Proszę czekać.. Trwa łączenie z bazą danych...");
                        try {
-                           SwingUtilities.invokeAndWait(doHelloWorld);
+                           SwingUtilities.invokeAndWait(run);
                        }
                        catch (Exception e) {
                            e.printStackTrace();
                        }
-                       theModel.TryToConnect();
-
-
-
-
+                       if(theModel.TryToConnect()==false)
+                           ErrorMsg.setErrorCode(4); // kod błędu '4' oznacza błąd połączenia z bazą danych.
                        info.HideDialog();
                    }
                };
                appThread.start();
            }
            else
-               theLogin.setErrorCode(isInputGood);
-
+               ErrorMsg.setErrorCode(isInputGood);
        }
+        if(b.getText()=="Zarejestruj")
+        {
+            RegForm.ShowFrame();
+            RegForm.addController(this);
+        }
+        if(b.getText()=="Zarejestruj ...")
+        {
 
-        //JOptionPane.showMessageDialog(null, b.getText(), "InfoBox: " + "Tytul", JOptionPane.INFORMATION_MESSAGE);
+            int isInputGood;
+            isInputGood = theModel.CheckInput(RegForm.GetLogin(),RegForm.GetPassword(),RegForm.GetEmail());
+            if(isInputGood==0) {
+                final Runnable run = new Runnable() {
+                    public void run() {
+                        info.ShowDialog();
+                    }
+                };
+                Thread appThread = new Thread() {
+                    public void run() {
+                        info.run();
+                        info.SetTitle("Proszę czekać.. Trwa łączenie z bazą danych...");
+                        try {
+                            SwingUtilities.invokeAndWait(run);
+                        }
+                        catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        if(theModel.TryToConnect()==false)
+                            ErrorMsg.setErrorCode(4); // kod błędu '4' oznacza błąd połączenia z bazą danych.
+                        info.SetTitle("Nawiązano połączenie, trwa rejestracja...");
+                        int alreadyInDB = theModel.RegisterUserInDB(RegForm.GetLogin(), RegForm.GetPassword(), RegForm.GetEmail());
+                        if(alreadyInDB==0)
+                            System.out.println("Pomyślnie dodano użytkownika do bazy danych");
+                        else
+                            ErrorMsg.setErrorCode(alreadyInDB);
+
+
+                        info.HideDialog();
+                    }
+                };
+                appThread.start();
+            }
+            else
+                ErrorMsg.setErrorCode(isInputGood);
+        }
     }
 
     //------------------------//
@@ -81,6 +106,8 @@ public class Controller extends SwingWorker implements ActionListener{
         this.theModel = m;
 
         this.theLogin.addController(this);
+        ErrorMsg = new ShowMessage();
+        RegForm = new RegisterForm();
        // System.exit(0);
     }// Konstruktor tworzący główne okno aplikacji
     public void getAction()
