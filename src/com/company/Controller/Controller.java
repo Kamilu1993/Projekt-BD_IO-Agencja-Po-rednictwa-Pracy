@@ -1,5 +1,6 @@
 package com.company.Controller;
 
+import com.company.ErrorType;
 import com.company.View.*;
 import com.company.Model.Model;
 
@@ -9,6 +10,7 @@ import java.awt.event.ActionListener;
 /**
  *
  */
+
 public class Controller implements ActionListener{
     private Login theLogin;
     private Gui theGui;
@@ -16,54 +18,50 @@ public class Controller implements ActionListener{
     ShowConnectionInfo info;
     RegisterForm RegForm;
     ShowMessage ErrorMsg;
+    ErrorType isError = new ErrorType();
 
 
-    public void actionPerformed(java.awt.event.ActionEvent e){
-        JButton b = (JButton)e.getSource();
+    public void actionPerformed(java.awt.event.ActionEvent e) {
+        JButton b = (JButton) e.getSource();
         info = new ShowConnectionInfo();
-       if(b.getText()=="Zaloguj")
-       {
-           int isInputGood;
-           isInputGood = theModel.CheckInput(theLogin.GetUsername(),theLogin.GetPassword());
+        if (b.getText() == "Zaloguj") {
+            isError.Error_ = theModel.CheckInput(theLogin.GetUsername(), theLogin.GetPassword());
 
-           if(isInputGood==0){
-               final Runnable run = new Runnable() {
-                   public void run() {
+            if (isError.Error_ == ErrorType.ErrTypes.NO_ERRORS) {
+                final Runnable run = new Runnable() {
+                    public void run() {
 
-                       info.ShowDialog();
-                   }
-               };
-               Thread appThread = new Thread() {
-                   public void run() {
-                       info.run();
-                       info.SetTitle("Proszę czekać.. Trwa łączenie z bazą danych...");
-                       try {
-                           SwingUtilities.invokeAndWait(run);
-                       }
-                       catch (Exception e) {
-                           e.printStackTrace();
-                       }
-                       if(theModel.TryToConnect()==false)
-                           ErrorMsg.setErrorCode(4); // kod błędu '4' oznacza błąd połączenia z bazą danych.
-                       info.HideDialog();
-                   }
-               };
-               appThread.start();
-           }
-           else
-               ErrorMsg.setErrorCode(isInputGood);
-       }
-        if(b.getText()=="Zarejestruj")
-        {
+                        info.ShowDialog();
+                    }
+                };
+                Thread appThread = new Thread() {
+                    public void run() {
+                        info.run();
+                        info.SetTitle("Proszę czekać.. Trwa łączenie z bazą danych...");
+                        try {
+                            SwingUtilities.invokeAndWait(run);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        if (theModel.TryToConnect() == false) {
+                            isError.Error_ = ErrorType.ErrTypes.ERROR_WITH_DB_CONNECTION;
+                            ErrorMsg.setErrorType(isError); // błąd połączenia z bazą danych.
+                        }
+                        info.HideDialog();
+                    }
+                };
+                appThread.start();
+            } else
+                ErrorMsg.setErrorType(isError);
+        }
+        if (b.getText() == "Zarejestruj") {
             RegForm.ShowFrame();
             RegForm.addController(this);
         }
-        if(b.getText()=="Zarejestruj ...")
-        {
+        if (b.getText() == "Zarejestruj ...") {
 
-            int isInputGood;
-            isInputGood = theModel.CheckInput(RegForm.GetLogin(),RegForm.GetPassword(),RegForm.GetEmail());
-            if(isInputGood==0) {
+            isError.Error_ = theModel.CheckInput(RegForm.GetLogin(), RegForm.GetPassword(), RegForm.GetEmail());
+            if (isError.Error_ == ErrorType.ErrTypes.NO_ERRORS) {
                 final Runnable run = new Runnable() {
                     public void run() {
                         info.ShowDialog();
@@ -75,27 +73,25 @@ public class Controller implements ActionListener{
                         info.SetTitle("Proszę czekać.. Trwa łączenie z bazą danych...");
                         try {
                             SwingUtilities.invokeAndWait(run);
-                        }
-                        catch (Exception e) {
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
-                        if(theModel.TryToConnect()==false)
-                            ErrorMsg.setErrorCode(4); // kod błędu '4' oznacza błąd połączenia z bazą danych.
+                        if (theModel.TryToConnect() == false) {
+                            isError.Error_ = ErrorType.ErrTypes.ERROR_WITH_DB_CONNECTION;
+                            ErrorMsg.setErrorType(isError); // kod błędu '4' oznacza błąd połączenia z bazą danych.
+                        }
                         info.SetTitle("Nawiązano połączenie, trwa rejestracja...");
-                        int alreadyInDB = theModel.RegisterUserInDB(RegForm.GetLogin(), RegForm.GetPassword(), RegForm.GetEmail());
-                        if(alreadyInDB==0)
+                        isError.Error_ = theModel.RegisterUserInDB(RegForm.GetLogin(), RegForm.GetPassword(), RegForm.GetEmail());
+                        if (isError.Error_ == ErrorType.ErrTypes.NO_ERRORS)
                             System.out.println("Pomyślnie dodano użytkownika do bazy danych");
                         else
-                            ErrorMsg.setErrorCode(alreadyInDB);
-
-
+                            ErrorMsg.setErrorType(isError);
                         info.HideDialog();
                     }
                 };
                 appThread.start();
-            }
-            else
-                ErrorMsg.setErrorCode(isInputGood);
+            } else
+                ErrorMsg.setErrorType(isError);
         }
     }
 
