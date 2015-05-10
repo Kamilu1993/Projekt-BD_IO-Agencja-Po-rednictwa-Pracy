@@ -49,6 +49,12 @@ public class ShowMessage {
             case EMAIL_ALREADY_EXIST:
                 ErrorMessage("Podany email istnieje już w bazie. Prosimy podać inny adres email.");
                 break;
+            case EMPTY_LOGIN_AND_EMAIL:
+                ErrorMessage("Pola 'login' oraz 'email' nie mogą być pustę, proszę je wypełnić.");
+                break;
+            case ERROR_WITH_USER_ROLE:
+                ErrorMessage("Wystąpił błąd dotyczący typu konta użytkownika, proszę skontaktować się z administratorem.");
+                break;
             default:
                 ErrorMessage("Wystąpił nieznany błąd.");
                 break;

@@ -29,24 +29,23 @@ public class RegisterForm extends JFrame{
         SetLabels();
         SetFields();
         SetBtReg();
-    }
-    public void ShowFrame()
-    {
+    } // Ustawienia dotyczyące pozycji/wyświetlania formularza
+    public void ShowFrame() {
         RegForm.setVisible(true);
     }
-    public void HideFrame()
-    {
+    public void HideFrame() {
         RegForm.setVisible(false);
     }
     public String GetLogin() {
         return LoginInput.getText();
     }
     public String GetPassword() {
-        return PasswordInput.getText();
+        return String.valueOf(PasswordInput.getPassword());
     }
     public String GetEmail() {
         return EmailInput.getText();
     }
+    /* USTAWIENIA PÓL TESKTOWYCH, WPROWADZANIA DANYCH I PRZYCISKU */
     private void SetBtReg() {
         BtReg = new JButton();
         BtReg.setText("Zarejestruj ...");

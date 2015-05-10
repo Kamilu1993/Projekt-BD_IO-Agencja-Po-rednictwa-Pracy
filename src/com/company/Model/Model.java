@@ -97,8 +97,10 @@ public class Model {
     private ErrorType.ErrTypes CheckForEmptyInput(String login, String password, String email) {
         if(login.length()==0 && password.length()==0 && email.length()==0)
             return ErrorType.ErrTypes.EMPTY_LOGIN_PASSWORD_AND_EMAIL;
-        if(email.length()==0 && password.length()==0)
+        else if(email.length()==0 && password.length()==0)
             return ErrorType.ErrTypes.EMPTY_PASSWORD_AND_EMAIL;
+        else if(email.length()==0 && login.length()==0)
+            return ErrorType.ErrTypes.EMPTY_LOGIN_AND_EMAIL;
         else if(login.length()==0)
             return ErrorType.ErrTypes.EMPTY_LOGIN;
         else if(password.length()==0)
@@ -112,7 +114,6 @@ public class Model {
         Connection c = null;
         try {
             Class.forName("org.postgresql.Driver");
-            //c = DriverManager.getConnection("jdbc:postgresql://ec2-107-22-166-233.compute-1.amazonaws.com:5432/daeiamnmlhnm33?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory","uynyesjiyhkzym","BQjzHKYEp9s9h35H7dBxMWTJkf");
             c = DriverManager.getConnection("jdbc:postgresql://ec2-54-163-238-96.compute-1.amazonaws.com:5432/d67ebkto7j5lvk?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory",
                     "vqaihlhpyfrtzr","6oDG2S_0bHQpioBwVQSJ0jA2Yi");
         } catch (Exception e) {
@@ -121,7 +122,7 @@ public class Model {
         }
         System.out.println("Połączenie z bazą nawiązane! :)");
         return c;
-    }
+    } // Połączenie z bazą danych
     public ErrorType.ErrTypes RegisterUserInDB(String login, String password, String email) {
         isError.Error_ = CheckUserLogin(login);
         if(isError.Error_ != ErrorType.ErrTypes.NO_ERRORS) // sprawdzenie czy uzytkownik o podanym loginie jest juz w bazie
@@ -135,43 +136,42 @@ public class Model {
         }
     }
     private void AddNewUser(String login, String password, String email) {
-       /* try {
-            Statement st = null;
-            ResultSet rs = null;
-            String stm = "SELECT email FROM uzytkownik WHERE email='"+email+"'";
-
-            st = ActualConnection.createStatement();
-            rs = st.executeQuery(stm);
-            if(rs.next()) // przejscie do kolejnego wiersza poniewaz standardowo zwracane są informacje z wiersza '0'
-                if(rs.getString("email").equals(email))
-                    return 13;
-        } catch (SQLException ex) {
-            Logger lgr = Logger.getLogger(Model.class.getName());
-            lgr.log(Level.SEVERE, ex.getMessage(), ex);
-            return 999;
-        }
-        return 0;
-        PreparedStatement pst = null;
-
         try {
-            String stm = "INSERT INTO uzytkownik(user_login, user_pw, email) VALUES(?, ?, ?)";
-            pst = con.prepareStatement(stm);
-            pst.setInt(1, id);
-            pst.setString(2, author);
+            PreparedStatement pst = null;
+            ResultSet rs = null;
+            String sql_query = "INSERT INTO uzytkownik(user_login, user_pw, email) VALUES(?, ?, ?)";
+            String user_id="";
+
+            pst = ActualConnection.prepareStatement(sql_query);
+            pst.setString(1, login);
+            pst.setString(2, password);
+            pst.setString(3, email);
+            pst.executeUpdate();
+
+            sql_query = "SELECT user_id FROM uzytkownik WHERE user_login=?"; // pobranie id_uzytkownika
+            pst = ActualConnection.prepareStatement(sql_query);
+            pst.setString(1, login);
+            rs = pst.executeQuery();
+            if(rs.next())
+                user_id = rs.getString("user_id");
+            sql_query = "INSERT INTO klient(user_id) VALUES(?)";
+            pst = ActualConnection.prepareStatement(sql_query);
+            pst.setString(1, user_id);
             pst.executeUpdate();
 
         } catch (SQLException ex) {
-            Logger lgr = Logger.getLogger(Prepared.class.getName());
-            lgr.log(Level.SEVERE, ex.getMessage(), ex);*/
+            Logger lgr = Logger.getLogger(Model.class.getName());
+            lgr.log(Level.SEVERE, ex.getMessage(), ex);
+        }
     }
     private ErrorType.ErrTypes CheckUserEmail(String email) {
         try {
-            Statement st = null;
             ResultSet rs = null;
-            String stm = "SELECT email FROM uzytkownik WHERE email='"+email+"'";
+            String sql_query = "SELECT email FROM uzytkownik WHERE email=?";
+            PreparedStatement prepStmt = ActualConnection.prepareStatement(sql_query);
 
-            st = ActualConnection.createStatement();
-            rs = st.executeQuery(stm);
+            prepStmt.setString(1,email);
+            rs = prepStmt.executeQuery();
             if(rs.next()) // przejscie do kolejnego wiersza poniewaz standardowo zwracane są informacje z wiersza '0'
                 if(rs.getString("email").equals(email))
                     return ErrorType.ErrTypes.EMAIL_ALREADY_EXIST;
@@ -184,12 +184,12 @@ public class Model {
     }
     private ErrorType.ErrTypes CheckUserLogin(String login) {
         try {
-            Statement st = null;
             ResultSet rs = null;
-            String stm = "SELECT user_login FROM uzytkownik WHERE user_login='"+login+"'";
+            String sql_query = "SELECT user_login FROM uzytkownik WHERE user_login=?";
+            PreparedStatement prepStmt = ActualConnection.prepareStatement(sql_query);
 
-            st = ActualConnection.createStatement();
-            rs = st.executeQuery(stm);
+            prepStmt.setString(1,login);
+            rs = prepStmt.executeQuery();
             if(rs.next()) // przejscie do kolejnego wiersza poniewaz standardowo zwracane są informacje z wiersza '0'
                 if(rs.getString("user_login").equals(login))
                     return ErrorType.ErrTypes.USER_ALREADY_EXIST;
@@ -199,5 +199,10 @@ public class Model {
             return ErrorType.ErrTypes.UNKNOWN_ERROR;
         }
         return ErrorType.ErrTypes.NO_ERRORS;
+    }
+    public ErrorType.ErrTypes CheckUserRole(String login)
+    {
+        UserRole WhoIsThis = new UserRole();
+        return WhoIsThis.CheckUserGroup(login, ActualConnection);
     }
 }
