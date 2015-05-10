@@ -13,6 +13,9 @@ public class ShowConnectionInfo implements Runnable {
     public Thread t;
     private ImageIcon waitImg;
     private JLabel ImageLabel;
+    //----------------------------------------------------------------------------------------//
+
+    //region Ustawienie pozycji okna oraz znajdujących sie na nim obiektów. (Konstruktor klasy i klasa wątka roboczego)
     public ShowConnectionInfo() {
         t = new Thread(this); // stworzenie nowego wątku dla tej klasy
         waitImg = new ImageIcon(Login.class.getResource("Images/loading.gif").getPath());
@@ -36,10 +39,12 @@ public class ShowConnectionInfo implements Runnable {
 
         Info.add(ImageLabel);
     } // Klasa wątku, startowana z klasy kontrolera.
+    //endregion
+
     public void SetTitle(String title)
     {
         ImageLabel.setText(title);
-    }
+    } // Ustawienie napisu wyświetlającego się w oknie
     public void ShowDialog() {
         Info.setVisible(true);
     } // Pokazanie okienka wczytywania

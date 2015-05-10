@@ -10,11 +10,8 @@ public class Main
     public static void main(String[] args)
     {
         Login LoginFrame = new Login();
-        Gui GuiFrame = new Gui();
         Model MainModel = new Model();
 
-        Controller MainController = new Controller(GuiFrame, LoginFrame, MainModel);
-
-        MainController.StartApp();
+        Controller MainController = new Controller(LoginFrame, MainModel);
     }
 }

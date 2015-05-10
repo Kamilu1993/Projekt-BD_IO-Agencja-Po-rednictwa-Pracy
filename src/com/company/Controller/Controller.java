@@ -1,78 +1,116 @@
 package com.company.Controller;
 
 import com.company.ErrorType;
-import com.company.Model.UserRole;
+import com.company.Model.CustomerService;
+import com.company.Model.PasswordService;
 import com.company.View.*;
 import com.company.Model.Model;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 /**
  *
  */
 
-public class Controller implements ActionListener{
+public class Controller implements ActionListener, KeyListener{
     private Login theLogin;
-    private Gui theGui;
     private Model theModel;
-    private ShowConnectionInfo info;
+    private ShowConnectionInfo info = new ShowConnectionInfo(); // Stowrzenie okna obsługującego komunikaty dotyczące logowania
     private RegisterForm RegForm;
     private ShowMessage ErrorMsg;
+    private PasswordService PasswordEncrypter = new PasswordService();
     ErrorType isError = new ErrorType();
 
+    private void StartLogIn() {
+        RegForm.HideFrame(); // Ukrycie okna rejestracji
 
-    public void actionPerformed(java.awt.event.ActionEvent e) {
-        JButton b = (JButton) e.getSource();
-        info = new ShowConnectionInfo();
-        if (b.getText() == "Zaloguj") {
-            isError.Error_ = theModel.CheckInput(theLogin.GetUsername(), theLogin.GetPassword());
+        //region Wstępne sprawdzanie poprawności wprowadzonych danych.
+        isError.Error_ = theModel.CheckInput(theLogin.GetUsername(), theLogin.GetPassword());
+        //endregion
 
-            if (isError.Error_ == ErrorType.ErrTypes.NO_ERRORS) {
-                final Runnable run = new Runnable() {
-                    public void run() {
-                        info.ShowDialog();
+        if (isError.Error_ == ErrorType.ErrTypes.NO_ERRORS) {
+
+            //region Funkcja wątku roboczego, odpowiedzialna za pokazanie okna informacyjnego o stanie aplikacji.
+            final Runnable dialogShow = new Runnable() {
+                public void run() {
+                    info.ShowDialog();
+                }
+            };
+            //endregion
+
+            //region Nowy wątek roboczy - sprawdzający poprawność wprowadzonych danych.
+            Thread appThread = new Thread() {
+                public void run() {
+                    info.run();
+                    info.SetTitle("Proszę czekać.. Trwa łączenie z bazą danych...");
+                    try {
+                        SwingUtilities.invokeAndWait(dialogShow); // odwołanie do funkcji i oczekiwanie aż skończy swoje działanie
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                };
-                Thread appThread = new Thread() {
-                    public void run() {
-                        info.run();
-                        info.SetTitle("Proszę czekać.. Trwa łączenie z bazą danych...");
-                        try {
-                            SwingUtilities.invokeAndWait(run);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        if (theModel.TryToConnect() == false) {
-                            isError.Error_ = ErrorType.ErrTypes.ERROR_WITH_DB_CONNECTION;
-                            ErrorMsg.setErrorType(isError); // błąd połączenia z bazą danych.
-                        }
-                        info.SetTitle("Trwa logowanie...");
 
-                        // sprawdzanie grupy do której nalezy logujący sie użytkownik
-                        isError.Error_ = theModel.CheckUserRole(theLogin.GetUsername());
-                        if (isError.Error_ != ErrorType.ErrTypes.UNKNOWN_ERROR && isError.Error_ != ErrorType.ErrTypes.ERROR_WITH_USER_ROLE) {
-                            switch (isError.Error_)
-                            {
-                                case THIS_IS_CUSTOMER_ACC:
-                                    System.out.println("Konto pracownika");
-                                    break;
-                            }
-                        }
-                        else
-                            ErrorMsg.setErrorType(isError); // błąd połączenia z bazą danych.
-
-                        info.HideDialog();
+                    // Połączenie z bazą danych
+                    if (theModel.TryToConnect() == false) {
+                        isError.Error_ = ErrorType.ErrTypes.ERROR_WITH_DB_CONNECTION;
+                        ErrorMsg.setErrorType(isError); // błąd połączenia z bazą danych.
                     }
-                };
-                appThread.start();
-            } else
-                ErrorMsg.setErrorType(isError);
+
+                    info.SetTitle("Trwa logowanie...");
+                    // sprawdzanie grupy do której nalezy logujący sie użytkownik
+                    isError.Error_ = theModel.CheckUserRole(theLogin.GetUsername());
+                    if (isError.Error_ != ErrorType.ErrTypes.UNKNOWN_ERROR && isError.Error_ != ErrorType.ErrTypes.ERROR_WITH_USER_ROLE) {
+                        switch (isError.Error_) {
+                            case THIS_IS_CUSTOMER_ACC:
+                                // Sprawdzenie czy hasło sie zgadza
+                                try {
+                                    PasswordService.CheckPassword(theLogin.GetPassword(), theModel.GetUserPasswordFromDB(theLogin.GetUsername()));
+                                    //############################################################//
+                                        /* ŁADOWANIE OKNA APLIKACJI DLA KLIENTA */
+                                    info.SetTitle("Zalogowano pomyślnie... Trwa ładowanie aplikacji...");
+                                    theLogin.HideLoginFrame();
+                                    theLogin = null;
+                                    CustomerGui Customer_GUI = new CustomerGui();
+                                    CustomerService Customer_SERVICE = new CustomerService(theModel.GetConnection());
+                                    theModel = null;
+                                    CustomerController Customer_CONTROLLER = new CustomerController(Customer_GUI, Customer_SERVICE);
+                                } catch (Exception e) {
+                                    isError.Error_ = ErrorType.ErrTypes.WRONG_PASSWORD;
+                                    ErrorMsg.setErrorType(isError);
+                                }
+                                break;
+                        }
+                    } else
+                        ErrorMsg.setErrorType(isError); // błąd połączenia z bazą danych.
+
+                    info.HideDialog();
+                }
+            };
+            appThread.start();
+            //endregion
         }
+        else
+            ErrorMsg.setErrorType(isError);
+    }
+    public void actionPerformed(ActionEvent e) {
+        JButton b = (JButton) e.getSource(); // pobranie źródła klikniętego przycisku
+
+        //region Nacisnięcie przycisku "ZALOGUJ".
+        if (b.getText() == "Zaloguj")
+            StartLogIn();
+        //endregion
+
+        //region Naciśnięcie przycisku "ZAREJESTRUJ"
         if (b.getText() == "Zarejestruj") {
             RegForm.ShowFrame();
             RegForm.addController(this);
         }
+        //endregion
+
+        //region Naciśnięcie przycisku "ZAREJESTRUJ ..."
         if (b.getText() == "Zarejestruj ...") {
             isError.Error_ = theModel.CheckInput(RegForm.GetLogin(), RegForm.GetPassword(), RegForm.GetEmail());
             if (isError.Error_ == ErrorType.ErrTypes.NO_ERRORS) {
@@ -85,6 +123,7 @@ public class Controller implements ActionListener{
                     public void run() {
                         info.run();
                         info.SetTitle("Proszę czekać.. Trwa łączenie z bazą danych...");
+                        String EncryptedPasswordInDB = "";
                         try {
                             SwingUtilities.invokeAndWait(run);
                         } catch (Exception e) {
@@ -92,12 +131,20 @@ public class Controller implements ActionListener{
                         }
                         if (theModel.TryToConnect() == false) {
                             isError.Error_ = ErrorType.ErrTypes.ERROR_WITH_DB_CONNECTION;
-                            ErrorMsg.setErrorType(isError); // kod błędu '4' oznacza błąd połączenia z bazą danych.
+                            ErrorMsg.setErrorType(isError); // błąd połączenia z bazą danych
                         }
                         info.SetTitle("Nawiązano połączenie, trwa rejestracja...");
-                        isError.Error_ = theModel.RegisterUserInDB(RegForm.GetLogin(), RegForm.GetPassword(), RegForm.GetEmail());
+                        try
+                        {
+                            EncryptedPasswordInDB = PasswordEncrypter.encrypt(RegForm.GetPassword());
+                        }
+                        catch (Exception e)
+                        {
+                            System.out.println("Wystąpił błąd z szyfrowanie hasła!");
+                        }
+                        isError.Error_ = theModel.RegisterUserInDB(RegForm.GetLogin(), EncryptedPasswordInDB, RegForm.GetEmail());
                         if (isError.Error_ == ErrorType.ErrTypes.NO_ERRORS) {
-                            info.SetTitle("Rejestracja zakończona powodzeniem. Możesz się zalogować.");
+                            info.SetTitle("Rejestracja zakończona powodzeniem...");
                             System.out.println("Pomyślnie dodano użytkownika do bazy danych");
                         }
                         else
@@ -109,30 +156,33 @@ public class Controller implements ActionListener{
             } else
                 ErrorMsg.setErrorType(isError);
         }
+        //endregion
     }
 
-    //------------------------//
-    public Controller(Gui g, Login l, Model m) {
+    //-------------------------------------------------------------------------------------------------------//
+
+    public Controller(Login l, Model m) {
         this.theLogin = l;
-        this.theGui = g;
         this.theModel = m;
 
         this.theLogin.addController(this);
+        this.theLogin.addKeyListener(this);
         ErrorMsg = new ShowMessage();
         RegForm = new RegisterForm();
-       // System.exit(0);
     }// Konstruktor tworzący główne okno aplikacji
-    public void getAction()
-    {
 
-        //return 0;
+    @Override
+    public void keyTyped(KeyEvent e) {
     }
-    public void ShowConnectionInfo()
-    {
 
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            StartLogIn();
+        }
     }
-    public void StartApp()
-    {
 
+    @Override
+    public void keyReleased(KeyEvent e) {
     }
 }

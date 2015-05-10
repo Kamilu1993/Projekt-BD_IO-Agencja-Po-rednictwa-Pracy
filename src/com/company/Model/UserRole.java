@@ -9,13 +9,14 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- * Created by Bajtas on 2015-05-10.
+/*
+ * Klasa do sprawdzania typu konta logującego się użytkownika
  */
 public class UserRole {
-    private ErrorType isError = new ErrorType();
-    public ErrorType.ErrTypes CheckUserGroup(String user_login, Connection ActualConnection)
-    {
+    private ErrorType isError = new ErrorType(); // klasa obsługujaca typy błędów.
+
+    //region Metoda sprawdzająca typ konta logującego się użytkownika.
+    public ErrorType.ErrTypes CheckUserGroup(String user_login, Connection ActualConnection) {
         Integer user_id = 0;
         try {
             ResultSet rs = null;
@@ -58,4 +59,6 @@ public class UserRole {
         }
         return ErrorType.ErrTypes.ERROR_WITH_USER_ROLE;
     }
+    //endregion
+
 }

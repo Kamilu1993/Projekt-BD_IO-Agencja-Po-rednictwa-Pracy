@@ -1,10 +1,13 @@
 package com.company.View;
 
+import com.company.Controller.Controller;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyListener;
 /*------------------------------
-Klasa wyświetlająca okno logowania oraz komunikaty błędów.
+Klasa wyświetlająca okno logowania.
 Klasa nie sprawdza poprawności żadnego pola, zgodnie z wzorcem MVC nie ma ona fizycznego połączenia z klasą modelu ani
 z klasą kontrolera.
 --------------------------------
@@ -27,6 +30,10 @@ public class Login extends JFrame {
 
         return username;
     } // pobieranie loginu
+    public void HideLoginFrame()
+    {
+        LoginFrame.setVisible(false);
+    }
     public Login() {
         int width = 250, height = 250;
         LoginFrame = new JFrame();
@@ -53,8 +60,13 @@ public class Login extends JFrame {
 
         //LoginFrame.getContentPane().setBackground(Color.yellow);
     } // Konstruktor tworzący okno
+    public void addKeyListener(KeyListener controller) {
+        LoginFrame.addKeyListener(controller);
+        BtLogInto.addKeyListener(controller);
+        LoginField.addKeyListener(controller);
+        PasswordField.addKeyListener(controller);
+    }
     public void addController(ActionListener controller){
-
         BtLogInto.addActionListener(controller); // nasłuchiwanie czy nie został wcisnięty przycisk "zaloguj"
         BtRegInto.addActionListener(controller); // nasłuchiwanie czy nie został wcisnięty przycisk "zarejestruj"
     } // Metoda dodania słuchacza (kontrolera)

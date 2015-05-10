@@ -55,6 +55,9 @@ public class ShowMessage {
             case ERROR_WITH_USER_ROLE:
                 ErrorMessage("Wystąpił błąd dotyczący typu konta użytkownika, proszę skontaktować się z administratorem.");
                 break;
+            case WRONG_PASSWORD:
+                ErrorMessage("<html>Podano złe hasło. Proszę ponownie wpisać hasło uważająć na wielkość liter.</html>");
+                break;
             default:
                 ErrorMessage("Wystąpił nieznany błąd.");
                 break;

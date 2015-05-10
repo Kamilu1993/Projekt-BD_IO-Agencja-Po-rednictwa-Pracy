@@ -10,6 +10,7 @@ public class Model {
     private boolean isConnected = false;
     private Connection ActualConnection;
     private ErrorType isError = new ErrorType();
+    //------------------------------------------------------------------------------------------//
     public boolean TryToConnect() {
         Connection temp = ConnectToDB();
         if(temp!=null)
@@ -18,7 +19,7 @@ public class Model {
             return true;
         }
         return false;
-    }
+    } // Ustanowienie połączenia z bazą danych...
     public ErrorType.ErrTypes CheckInput(String login, String password) {
         return CheckForEmptyInput(login, password);
     }
@@ -134,13 +135,13 @@ public class Model {
             AddNewUser(login, password, email);
             return ErrorType.ErrTypes.NO_ERRORS;
         }
-    }
+    } // Klasa rozpoczynająca sprawdzanie poprawności wprowadzonych danych
     private void AddNewUser(String login, String password, String email) {
         try {
             PreparedStatement pst = null;
             ResultSet rs = null;
             String sql_query = "INSERT INTO uzytkownik(user_login, user_pw, email) VALUES(?, ?, ?)";
-            String user_id="";
+            Integer user_id=0;
 
             pst = ActualConnection.prepareStatement(sql_query);
             pst.setString(1, login);
@@ -148,22 +149,23 @@ public class Model {
             pst.setString(3, email);
             pst.executeUpdate();
 
+            /* Nowo zarejestrowani użytkownicy mają role 'klientów' */
             sql_query = "SELECT user_id FROM uzytkownik WHERE user_login=?"; // pobranie id_uzytkownika
             pst = ActualConnection.prepareStatement(sql_query);
             pst.setString(1, login);
             rs = pst.executeQuery();
             if(rs.next())
-                user_id = rs.getString("user_id");
+                user_id = rs.getInt("user_id");
             sql_query = "INSERT INTO klient(user_id) VALUES(?)";
             pst = ActualConnection.prepareStatement(sql_query);
-            pst.setString(1, user_id);
+            pst.setInt(1, user_id);
             pst.executeUpdate();
 
         } catch (SQLException ex) {
             Logger lgr = Logger.getLogger(Model.class.getName());
             lgr.log(Level.SEVERE, ex.getMessage(), ex);
         }
-    }
+    } // Dodanie użytkownika do bazy danych
     private ErrorType.ErrTypes CheckUserEmail(String email) {
         try {
             ResultSet rs = null;
@@ -200,9 +202,27 @@ public class Model {
         }
         return ErrorType.ErrTypes.NO_ERRORS;
     }
-    public ErrorType.ErrTypes CheckUserRole(String login)
-    {
+    public ErrorType.ErrTypes CheckUserRole(String login) {
         UserRole WhoIsThis = new UserRole();
         return WhoIsThis.CheckUserGroup(login, ActualConnection);
+    } // sprawdzenie typu konta użytkownika
+    public String GetUserPasswordFromDB(String login) {
+        try {
+            ResultSet rs = null;
+            String sql_query = "SELECT user_pw FROM uzytkownik WHERE user_login=?";
+            PreparedStatement prepStmt = ActualConnection.prepareStatement(sql_query);
+
+            prepStmt.setString(1,login);
+            rs = prepStmt.executeQuery();
+            rs.next(); // przejscie do kolejnego wiersza poniewaz standardowo zwracane są informacje z wiersza '0'
+            return rs.getString("user_pw");
+        } catch (SQLException ex) {
+            Logger lgr = Logger.getLogger(Model.class.getName());
+            lgr.log(Level.SEVERE, ex.getMessage(), ex);
+        }
+        return "";
+    } // pobranie hasła z bazy danych
+    public Connection GetConnection()    {
+        return ActualConnection;
     }
 }
