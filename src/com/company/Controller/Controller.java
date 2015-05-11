@@ -72,8 +72,8 @@ public class Controller implements ActionListener, KeyListener{
                                         /* ŁADOWANIE OKNA APLIKACJI DLA KLIENTA */
                                     info.SetTitle("Zalogowano pomyślnie... Trwa ładowanie aplikacji...");
                                     theLogin.HideLoginFrame();
+                                    CustomerGui Customer_GUI = new CustomerGui(theLogin.GetUsername());
                                     theLogin = null;
-                                    CustomerGui Customer_GUI = new CustomerGui();
                                     CustomerService Customer_SERVICE = new CustomerService(theModel.GetConnection());
                                     theModel = null;
                                     CustomerController Customer_CONTROLLER = new CustomerController(Customer_GUI, Customer_SERVICE);
@@ -145,7 +145,9 @@ public class Controller implements ActionListener, KeyListener{
                         isError.Error_ = theModel.RegisterUserInDB(RegForm.GetLogin(), EncryptedPasswordInDB, RegForm.GetEmail());
                         if (isError.Error_ == ErrorType.ErrTypes.NO_ERRORS) {
                             info.SetTitle("Rejestracja zakończona powodzeniem...");
-                            System.out.println("Pomyślnie dodano użytkownika do bazy danych");
+                            isError.Error_ = ErrorType.ErrTypes.REGISTER_SUCCESS;
+                            ErrorMsg.setErrorType(isError);
+                            System.out.println("Pomyślnie dodano użytkownika do bazy danych! :)");
                         }
                         else
                             ErrorMsg.setErrorType(isError);

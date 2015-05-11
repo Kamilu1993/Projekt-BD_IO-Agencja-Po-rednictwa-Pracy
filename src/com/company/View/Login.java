@@ -13,7 +13,7 @@ z klasą kontrolera.
 --------------------------------
  */
 
-public class Login extends JFrame {
+public class Login extends JFrame{
     private JFrame LoginFrame;
     private JPasswordField PasswordField;
     private JTextField LoginField;
@@ -43,10 +43,9 @@ public class Login extends JFrame {
         LoginFrame.setLocationRelativeTo(null); // wysrodkowanie aplikacji
         LoginFrame.setSize(width, height);
         LoginFrame.setResizable(false);
-        setDefaultCloseOperation(LoginFrame.EXIT_ON_CLOSE);
+        LoginFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         //REJESTRACJA
         SetInfoText(100,25);
-
         //LOGIN
         SetLoginText(100,25);
         SetLoginInput(100, 25);
@@ -56,7 +55,6 @@ public class Login extends JFrame {
         // PRZYCISK
         SetBtRegInto(100, 35, "Zarejestruj");
         SetBtLogInto(100, 35, "Zaloguj");
-
 
         //LoginFrame.getContentPane().setBackground(Color.yellow);
     } // Konstruktor tworzący okno

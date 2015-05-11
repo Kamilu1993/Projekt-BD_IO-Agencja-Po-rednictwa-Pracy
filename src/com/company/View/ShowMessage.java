@@ -58,6 +58,9 @@ public class ShowMessage {
             case WRONG_PASSWORD:
                 ErrorMessage("<html>Podano złe hasło. Proszę ponownie wpisać hasło uważająć na wielkość liter.</html>");
                 break;
+            case REGISTER_SUCCESS:
+                ErrorMessage("<html><center>Rejestracja zakończona powodzeniem. <br>Proszę się zalogować.</center></html>");
+                break;
             default:
                 ErrorMessage("Wystąpił nieznany błąd.");
                 break;
