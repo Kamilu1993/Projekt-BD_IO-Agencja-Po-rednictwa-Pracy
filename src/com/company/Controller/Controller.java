@@ -62,25 +62,30 @@ public class Controller implements ActionListener, KeyListener{
                     info.SetTitle("Trwa logowanie...");
                     // sprawdzanie grupy do której nalezy logujący sie użytkownik
                     isError.Error_ = theModel.CheckUserRole(theLogin.GetUsername());
-                    if (isError.Error_ != ErrorType.ErrTypes.UNKNOWN_ERROR && isError.Error_ != ErrorType.ErrTypes.ERROR_WITH_USER_ROLE) {
+                    if (isError.Error_ != ErrorType.ErrTypes.UNKNOWN_ERROR && isError.Error_ != ErrorType.ErrTypes.ERROR_WITH_USER_ROLE
+                            && isError.Error_ != ErrorType.ErrTypes.USER_DOESNT_EXIST) {
                         switch (isError.Error_) {
                             case THIS_IS_CUSTOMER_ACC:
                                 // Sprawdzenie czy hasło sie zgadza
                                 try {
                                     PasswordService.CheckPassword(theLogin.GetPassword(), theModel.GetUserPasswordFromDB(theLogin.GetUsername()));
-                                    //############################################################//
-                                        /* ŁADOWANIE OKNA APLIKACJI DLA KLIENTA */
-                                    info.SetTitle("Zalogowano pomyślnie... Trwa ładowanie aplikacji...");
-                                    theLogin.HideLoginFrame();
-                                    CustomerGui Customer_GUI = new CustomerGui(theLogin.GetUsername());
-                                    theLogin = null;
-                                    CustomerService Customer_SERVICE = new CustomerService(theModel.GetConnection());
-                                    theModel = null;
-                                    CustomerController Customer_CONTROLLER = new CustomerController(Customer_GUI, Customer_SERVICE);
+                                    PasswordEncrypter = null;
                                 } catch (Exception e) {
                                     isError.Error_ = ErrorType.ErrTypes.WRONG_PASSWORD;
                                     ErrorMsg.setErrorType(isError);
+                                    break;
                                 }
+                                //############################################################//
+                                        /* ŁADOWANIE OKNA APLIKACJI DLA KLIENTA */
+                                info.SetTitle("Zalogowano pomyślnie... Trwa ładowanie aplikacji...");
+                                theLogin.HideLoginFrame();
+
+                                CustomerGui Customer_GUI = new CustomerGui(theLogin.GetUsername(), theLogin);
+                                CustomerService Customer_SERVICE = new CustomerService(theModel.GetConnection());
+                                theLogin = null;
+                                theModel = null;
+                                CustomerController Customer_CONTROLLER = new CustomerController(Customer_GUI, Customer_SERVICE);
+                                Customer_CONTROLLER = null;
                                 break;
                         }
                     } else

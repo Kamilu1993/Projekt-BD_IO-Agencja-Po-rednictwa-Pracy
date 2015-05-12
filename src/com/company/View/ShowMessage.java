@@ -61,6 +61,9 @@ public class ShowMessage {
             case REGISTER_SUCCESS:
                 ErrorMessage("<html><center>Rejestracja zakończona powodzeniem. <br>Proszę się zalogować.</center></html>");
                 break;
+            case USER_DOESNT_EXIST:
+                ErrorMessage("Podany użytkownik nie istnieje w bazie danych.");
+                break;
             default:
                 ErrorMessage("Wystąpił nieznany błąd.");
                 break;

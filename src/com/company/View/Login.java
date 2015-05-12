@@ -1,7 +1,5 @@
 package com.company.View;
 
-import com.company.Controller.Controller;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -17,9 +15,7 @@ public class Login extends JFrame{
     private JFrame LoginFrame;
     private JPasswordField PasswordField;
     private JTextField LoginField;
-    private JLabel PasswordText, LoginText, InfoText;
     private JButton BtLogInto, BtRegInto;
-
 
     public String GetPassword() {
         String password = String.valueOf(PasswordField.getPassword());
@@ -53,8 +49,8 @@ public class Login extends JFrame{
         SetPasswordText(100,25);
         SetPasswordInput(100, 25);
         // PRZYCISK
-        SetBtRegInto(100, 35, "Zarejestruj");
-        SetBtLogInto(100, 35, "Zaloguj");
+        SetBtRegInto(100,"Zarejestruj");
+        SetBtLogInto(100,"Zaloguj");
 
         //LoginFrame.getContentPane().setBackground(Color.yellow);
     } // Konstruktor tworzący okno
@@ -70,87 +66,60 @@ public class Login extends JFrame{
     } // Metoda dodania słuchacza (kontrolera)
     /*Ustawienia wysokości/rozmiaru/pozycji pól JLabel,JButton,JTextField,JPasswordField */
     private void SetLoginInput(int width, int height){
-        int FrameWidth = LoginFrame.getWidth();
         int FrameHeight = LoginFrame.getHeight();
-
         LoginField = new JTextField();
-        //LoginField.setText("Login:");
-        LoginField.setLayout(null);
         LoginField.setSize(width, height);
         LoginField.setLocation(FrameHeight/2-width/2, 90);
         LoginField.setVisible(true);
         LoginFrame.add(LoginField);
     }
     private void SetInfoText(int width, int height) {
-        int FrameWidth = LoginFrame.getWidth();
         int FrameHeight = LoginFrame.getHeight();
-
-        InfoText = new JLabel();
-        InfoText.setText("Nie masz konta?");
-        InfoText.setForeground(Color.white);
-        InfoText.setLayout(null);
-        InfoText.setSize(width, height);
-        InfoText.setLocation(FrameHeight/2-width/2, 10);
-        InfoText.setVisible(true);
-        LoginFrame.add(InfoText);
+        JLabel infoText = new JLabel();
+        infoText.setText("Nie masz konta?");
+        infoText.setForeground(Color.white);
+        infoText.setSize(width, height);
+        infoText.setLocation(FrameHeight / 2 - width / 2, 10);
+        LoginFrame.add(infoText);
     }
     private void SetLoginText(int width, int height) {
-        int FrameWidth = LoginFrame.getWidth();
         int FrameHeight = LoginFrame.getHeight();
-
-        LoginText = new JLabel();
-        LoginText.setText("Login:");
-        LoginText.setForeground(Color.white);
-        LoginText.setLayout(null);
-        LoginText.setSize(width, height);
-        LoginText.setLocation(FrameHeight/2-width/2-40, 90);
-        LoginText.setVisible(true);
-        LoginFrame.add(LoginText);
+        JLabel loginText = new JLabel();
+        loginText.setText("Login:");
+        loginText.setForeground(Color.white);
+        loginText.setSize(width, height);
+        loginText.setLocation(FrameHeight / 2 - width / 2 - 40, 90);
+        LoginFrame.add(loginText);
     }
     private void SetPasswordInput(int width, int height) {
-        int FrameWidth = LoginFrame.getWidth();
         int FrameHeight = LoginFrame.getHeight();
-
         PasswordField = new JPasswordField();
-        PasswordField.setLayout(null);
         PasswordField.setSize(width, height);
         PasswordField.setLocation(FrameHeight/2-width/2, 120);
-        PasswordField.setVisible(true);
         LoginFrame.add(PasswordField);
     }
     private void SetPasswordText(int width, int height) {
-        int FrameWidth = LoginFrame.getWidth();
         int FrameHeight = LoginFrame.getHeight();
-
-        PasswordText = new JLabel();
-        PasswordText.setText("Hasło:");
-        PasswordText.setForeground(Color.white);
-        PasswordText.setLayout(null);
-        PasswordText.setSize(width, height);
-        PasswordText.setLocation(FrameHeight/2-width/2-40, 118);
-        PasswordText.setVisible(true);
-        LoginFrame.add(PasswordText);
+        JLabel passwordText = new JLabel();
+        passwordText.setText("Hasło:");
+        passwordText.setForeground(Color.white);
+        passwordText.setSize(width, height);
+        passwordText.setLocation(FrameHeight / 2 - width / 2 - 40, 118);
+        LoginFrame.add(passwordText);
     }
-    private void SetBtLogInto(int width, int height, String caption) {
-        int FrameWidth = LoginFrame.getWidth();
+    private void SetBtLogInto(int width,  String caption) {
         int FrameHeight = LoginFrame.getHeight();
-
         BtLogInto = new JButton(caption);
-        BtLogInto.setLayout(null);
         LoginFrame.add(BtLogInto);
         BtLogInto.setSize(100, 25);
         BtLogInto.setLocation(FrameHeight/2-width/2, 180);
-        BtLogInto.setVisible(true);
     }
-    private void SetBtRegInto(int width, int height, String caption) {
-        int FrameWidth = LoginFrame.getWidth();
+    private void SetBtRegInto(int width,  String caption) {
         int FrameHeight = LoginFrame.getHeight();
 
         BtRegInto = new JButton(caption);
-        BtRegInto.setLayout(null);
         LoginFrame.add(BtRegInto);
         BtRegInto.setSize(100, 25);
         BtRegInto.setLocation(FrameHeight/2-width/2, 30);
-        BtRegInto.setVisible(true);
     }
 }

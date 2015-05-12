@@ -49,7 +49,6 @@ public class RegisterForm extends JFrame{
     private void SetBtReg() {
         BtReg = new JButton();
         BtReg.setText("Zarejestruj ...");
-        BtReg.setVisible(true);
         BtReg.setSize(110,25);
         BtReg.setLocation(RegForm.getWidth()/2-BtReg.getWidth()/2,125);
         RegForm.add(BtReg);
