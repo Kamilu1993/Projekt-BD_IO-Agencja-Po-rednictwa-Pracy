@@ -18,7 +18,7 @@ public class ShowConnectionInfo implements Runnable {
     //region Ustawienie pozycji okna oraz znajdujących sie na nim obiektów. (Konstruktor klasy i klasa wątka roboczego)
     public ShowConnectionInfo() {
         t = new Thread(this); // stworzenie nowego wątku dla tej klasy
-        waitImg = new ImageIcon(Login.class.getResource("Images/loading.gif").getPath());
+        waitImg = new ImageIcon(Login.class.getResource("Images/loading.gif"));
 
     } // Konstrutkor tworzacy nowy watek oraz wczytujacy plik "loading.gif"
     public void run() {

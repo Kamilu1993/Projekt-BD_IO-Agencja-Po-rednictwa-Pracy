@@ -1,34 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.company.View.CustomerGui">
-  <grid id="27dc6" binding="RootPanel" layout-manager="GridLayoutManager" row-count="6" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+  <grid id="27dc6" binding="RootPanel" layout-manager="GridLayoutManager" row-count="5" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
-      <xy x="20" y="20" width="500" height="549"/>
+      <xy x="20" y="20" width="806" height="884"/>
     </constraints>
     <properties>
       <background color="-16718360"/>
     </properties>
     <border type="none"/>
     <children>
-      <component id="d7226" class="javax.swing.JLabel" binding="BgImage">
-        <constraints>
-          <grid row="0" column="3" row-span="6" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <text value="Label"/>
-        </properties>
-      </component>
-      <hspacer id="a58fc">
-        <constraints>
-          <grid row="0" column="2" row-span="6" col-span="1" vsize-policy="1" hsize-policy="2" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-        </constraints>
-      </hspacer>
-      <grid id="b4425" binding="UserMenu" layout-manager="GridLayoutManager" row-count="7" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="b4425" binding="UserMenu" layout-manager="GridLayoutManager" row-count="8" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="1" left="1" bottom="1" right="1"/>
         <constraints>
           <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
-        <properties/>
+        <properties>
+          <background color="-16714511"/>
+        </properties>
         <border type="etched" title="Menu użytkownika" title-justification="2">
           <font style="2"/>
           <title-color color="-16777216"/>
@@ -43,62 +32,76 @@
               <text value="Label"/>
             </properties>
           </component>
-          <component id="cb8f" class="javax.swing.JButton" binding="mojeCVButton" default-binding="true">
+          <component id="cb8f" class="javax.swing.JButton" binding="BtMyCV">
             <constraints>
               <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
+              <background color="-6166301"/>
+              <enabled value="true"/>
               <text value="Moje CV"/>
             </properties>
           </component>
-          <component id="e4648" class="javax.swing.JButton" binding="dodajCVButton" default-binding="true">
+          <component id="e4648" class="javax.swing.JButton" binding="BtAddCV">
             <constraints>
               <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
+              <background color="-6166301"/>
+              <icon value="com/company/View/Images/addCV.png"/>
               <text value="Dodaj CV"/>
             </properties>
           </component>
-          <component id="4562" class="javax.swing.JButton" binding="skrzynkaPocztowaButton" default-binding="true">
+          <component id="4562" class="javax.swing.JButton" binding="BtMailBox">
             <constraints>
               <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
+              <background color="-6166301"/>
               <text value="Skrzynka pocztowa"/>
             </properties>
           </component>
           <component id="97c7d" class="javax.swing.JButton" binding="BtLogOut">
             <constraints>
-              <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
+              <background color="-14428684"/>
+              <hideActionText value="true"/>
+              <icon value="com/company/View/Images/logout.png"/>
               <text value="Wyloguj..."/>
             </properties>
           </component>
           <vspacer id="f27f3">
             <constraints>
-              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false">
+              <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false">
                 <minimum-size width="-1" height="15"/>
                 <preferred-size width="-1" height="25"/>
                 <maximum-size width="-1" height="150"/>
               </grid>
             </constraints>
           </vspacer>
-          <component id="83c4b" class="javax.swing.JButton" binding="opcjeKontaButton1" default-binding="true">
+          <component id="83c4b" class="javax.swing.JButton" binding="BtAccountOptions">
             <constraints>
-              <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
+              <background color="-14428684"/>
+              <icon value="com/company/View/Images/options.png"/>
               <text value="Opcje konta"/>
+            </properties>
+          </component>
+          <component id="fdac9" class="javax.swing.JButton" binding="BtShowAllOffers">
+            <constraints>
+              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-6166301"/>
+              <text value="Przeglądaj oferty..."/>
             </properties>
           </component>
         </children>
       </grid>
-      <vspacer id="5b54a">
-        <constraints>
-          <grid row="5" column="0" row-span="1" col-span="2" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-        </constraints>
-      </vspacer>
       <vspacer id="b40d9">
         <constraints>
           <grid row="2" column="1" row-span="2" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="1" use-parent-layout="false">
@@ -108,12 +111,15 @@
           </grid>
         </constraints>
       </vspacer>
-      <grid id="b235a" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="b235a" binding="DataPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="1" left="1" bottom="1" right="1"/>
         <constraints>
           <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="1" fill="1" indent="1" use-parent-layout="false"/>
         </constraints>
-        <properties/>
+        <properties>
+          <background color="-16714511"/>
+          <font size="16" style="3"/>
+        </properties>
         <border type="etched" title-justification="2">
           <font style="2"/>
           <title-color color="-16777216"/>
@@ -125,6 +131,7 @@
             </constraints>
             <properties>
               <font size="14" style="2"/>
+              <icon value="com/company/View/Images/calendar.png"/>
               <text value="Label"/>
             </properties>
           </component>
@@ -137,6 +144,45 @@
           </grid>
         </constraints>
       </vspacer>
+      <grid id="f4bb9" binding="RecOffersPanel" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="1" left="1" bottom="1" right="1"/>
+        <constraints>
+          <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <background color="-12654081"/>
+        </properties>
+        <border type="etched">
+          <font/>
+        </border>
+        <children>
+          <scrollpane id="cc73a" binding="ScrollPane">
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="10df3" class="javax.swing.JList" binding="RecOfferList">
+                <constraints/>
+                <properties>
+                  <background color="-13440001"/>
+                  <model/>
+                </properties>
+              </component>
+            </children>
+          </scrollpane>
+          <component id="e267c" class="javax.swing.JLabel" binding="OffersLabel">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <icon value="com/company/View/Images/case.png"/>
+              <text value="Oferty rekomendowane"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
     </children>
   </grid>
 </form>

@@ -33,7 +33,7 @@ public class Login extends JFrame{
     public Login() {
         int width = 250, height = 250;
         LoginFrame = new JFrame();
-        LoginFrame.setContentPane(new JLabel(new ImageIcon(Login.class.getResource("Images/blue_bg.jpg").getPath()))); // wczytanie tła
+        LoginFrame.setContentPane(new JLabel(new ImageIcon(Login.class.getResource("Images/blue_bg.jpg")))); // wczytanie tła
         LoginFrame.setTitle("Zaloguj się");
         LoginFrame.setVisible(true);
         LoginFrame.setLocationRelativeTo(null); // wysrodkowanie aplikacji

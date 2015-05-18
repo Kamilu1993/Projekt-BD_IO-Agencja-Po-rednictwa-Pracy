@@ -19,7 +19,7 @@ public class RegisterForm extends JFrame{
     public RegisterForm() {
         int width = 180, height = 200;
         RegForm = new JFrame();
-        RegForm.setContentPane(new JLabel(new ImageIcon(RegisterForm.class.getResource("Images/regform_bg.jpg").getPath()))); // wczytanie tła
+        RegForm.setContentPane(new JLabel(new ImageIcon(RegisterForm.class.getResource("Images/regform_bg.jpg")))); // wczytanie tła
         RegForm.setTitle("Formularz rejestracji");
         RegForm.setVisible(false);
         RegForm.setLocationRelativeTo(null); // wysrodkowanie aplikacji
