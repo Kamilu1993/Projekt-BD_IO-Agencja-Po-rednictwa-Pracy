@@ -1,6 +1,7 @@
 package com.company.Model;
 
 import com.company.ErrorType;
+import sun.security.krb5.internal.PAData;
 
 import java.sql.*;
 import java.util.logging.Logger;
@@ -51,31 +52,12 @@ public class Model {
                 return ErrorType.ErrTypes.LOGIN_NOT_ALLOWED;
         }
         /* --------- HASŁO --------- */
-        if(password.length()<5)
-            return ErrorType.ErrTypes.PASSWORD_TOO_SHORT;
-        //  ZNAK ' " '
-        int i = 34;
-        char c = (char)i;
-        String s = "" + c;
-        if(password.contains(s))
-            return ErrorType.ErrTypes.PASSWORD_CONTAINS_NOT_ALLOWED_CHARACTERS;
-        // SPACJA
-        s = " ";
-        if(password.contains(s))
-            return ErrorType.ErrTypes.PASSWORD_CONTAINS_NOT_ALLOWED_CHARACTERS;
-        for(i=39;i<48;i++) {
-            c = (char)i;
-            s = "" + c;
-            if(password.contains(s))
-                return ErrorType.ErrTypes.PASSWORD_CONTAINS_NOT_ALLOWED_CHARACTERS;
-        }
-        for(i=58;i<64;i++) {
-            c = (char)i;
-            s = "" + c;
-            if(password.contains(s))
-                return ErrorType.ErrTypes.PASSWORD_CONTAINS_NOT_ALLOWED_CHARACTERS;
-        }
+        PasswordService pascheck = new PasswordService();
+        isError.Error_ = pascheck.CheckPassLength(password);
+        if(pascheck.CheckPassLength(password)!= ErrorType.ErrTypes.NO_ERRORS)
+            return isError.Error_;
         //EMAIL
+        String s;
         s = "@";
         String s2 = ".", s3 = ".@", s4 = "@.";
 

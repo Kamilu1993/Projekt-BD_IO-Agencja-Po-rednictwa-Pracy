@@ -64,6 +64,11 @@ public class ShowMessage {
             case USER_DOESNT_EXIST:
                 ErrorMessage("Podany użytkownik nie istnieje w bazie danych.");
                 break;
+            case NO_ERRORS:
+                break;
+            case PASSWORD_DOESNT_MATCH:
+                ErrorMessage("Podane hasła nie są identyczne!");
+                break;
             default:
                 ErrorMessage("Wystąpił nieznany błąd.");
                 break;

@@ -1,5 +1,6 @@
 package com.company.Model;
 
+import com.company.ErrorType;
 import sun.misc.BASE64Encoder;
 
 import javax.crypto.Cipher;
@@ -40,4 +41,38 @@ public class PasswordService {
         return new BASE64Encoder().encode(bytes);
     }
     //endregion
+    public ErrorType.ErrTypes CheckPassLength(String password){
+        /* --------- HASŁO --------- */
+        if(password.length()<5)
+            return ErrorType.ErrTypes.PASSWORD_TOO_SHORT;
+        //  ZNAK ' " '
+        int i = 34;
+        char c = (char)i;
+        String s = "" + c;
+        if(password.contains(s))
+            return ErrorType.ErrTypes.PASSWORD_CONTAINS_NOT_ALLOWED_CHARACTERS;
+        // SPACJA
+        s = " ";
+        if(password.contains(s))
+            return ErrorType.ErrTypes.PASSWORD_CONTAINS_NOT_ALLOWED_CHARACTERS;
+        for(i=39;i<48;i++) {
+            c = (char)i;
+            s = "" + c;
+            if(password.contains(s))
+                return ErrorType.ErrTypes.PASSWORD_CONTAINS_NOT_ALLOWED_CHARACTERS;
+        }
+        for(i=58;i<64;i++) {
+            c = (char)i;
+            s = "" + c;
+            if(password.contains(s))
+                return ErrorType.ErrTypes.PASSWORD_CONTAINS_NOT_ALLOWED_CHARACTERS;
+        }
+        return ErrorType.ErrTypes.NO_ERRORS;
+    }
+    public ErrorType.ErrTypes CheckPassMatch(String pass, String pass2){
+        if(pass.equals(pass2))
+            return ErrorType.ErrTypes.NO_ERRORS;
+        else
+            return ErrorType.ErrTypes.PASSWORD_DOESNT_MATCH;
+    }
 }

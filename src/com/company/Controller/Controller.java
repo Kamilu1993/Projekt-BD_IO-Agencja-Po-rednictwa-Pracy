@@ -81,7 +81,7 @@ public class Controller implements ActionListener, KeyListener{
                                 theLogin.HideLoginFrame();
 
                                 CustomerGui Customer_GUI = new CustomerGui(theLogin.GetUsername(), theLogin);
-                                CustomerService Customer_SERVICE = new CustomerService(theModel.GetConnection());
+                                CustomerService Customer_SERVICE = new CustomerService(theModel.GetConnection(), theLogin.GetUsername());
                                 theLogin = null;
                                 theModel = null;
                                 CustomerController Customer_CONTROLLER = new CustomerController(Customer_GUI, Customer_SERVICE);

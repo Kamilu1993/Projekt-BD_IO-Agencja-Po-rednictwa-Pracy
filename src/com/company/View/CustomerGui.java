@@ -100,5 +100,8 @@ public class CustomerGui extends JFrame{
 
         BtLogOut.setActionCommand("Wyloguj mnie");
         BtLogOut.addActionListener(CustomerController);
+
+        BtAccountOptions.setActionCommand("Opcje Konta");
+        BtAccountOptions.addActionListener(CustomerController);
     }
 }

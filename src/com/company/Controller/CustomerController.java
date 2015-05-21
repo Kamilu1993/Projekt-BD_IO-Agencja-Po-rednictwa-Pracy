@@ -1,10 +1,9 @@
 package com.company.Controller;
 
+import com.company.ErrorType;
 import com.company.Model.CustomerService;
 import com.company.Model.Model;
-import com.company.View.CVForm;
-import com.company.View.CustomerGui;
-import com.company.View.Login;
+import com.company.View.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,6 +15,10 @@ public class CustomerController implements ActionListener {
     CustomerGui Customer_GUI;
     CustomerService Customer_SERVICE;
     CVForm AddCVForm;
+    AccountSettings SettingsForm;
+    ShowMessage ErrorMsg = new ShowMessage();
+
+
 
     public CustomerController(CustomerGui gui, CustomerService service)
     {
@@ -25,6 +28,7 @@ public class CustomerController implements ActionListener {
 
         Customer_GUI.ShowCGUI();
         Customer_GUI.addController(this);
+
     }
 
     @Override
@@ -45,6 +49,19 @@ public class CustomerController implements ActionListener {
         }
         else if(e.getActionCommand().equals("Dodaj pole do EDUKACJA")){
             AddCVForm.addEducationArea();
+        }
+        else if(e.getActionCommand().equals("Opcje Konta")){
+            SettingsForm = new AccountSettings();
+            SettingsForm.setVisible(true);
+            SettingsForm.AddController(this);
+        }
+        else if(e.getActionCommand().equals("ZmienHaslo")){
+            ErrorType er=new ErrorType();
+            er.Error_=Customer_SERVICE.AccountOptions_ChangePass(SettingsForm.getOldPass(), SettingsForm.getNewPass(), SettingsForm.getNewPass2());
+            ErrorMsg.setErrorType(er);
+        }
+        else if(e.getActionCommand().equals("ZmienEmail")){
+            System.out.println("Nacisnieto przycisk zmien email");
         }
     }
 }
