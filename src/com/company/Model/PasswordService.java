@@ -41,6 +41,8 @@ public class PasswordService {
         return new BASE64Encoder().encode(bytes);
     }
     //endregion
+
+    //region Sprawdzanie długości hasła.
     public ErrorType.ErrTypes CheckPassLength(String password){
         /* --------- HASŁO --------- */
         if(password.length()<5)
@@ -75,4 +77,7 @@ public class PasswordService {
         else
             return ErrorType.ErrTypes.PASSWORD_DOESNT_MATCH;
     }
+    //endregion
+
+
 }

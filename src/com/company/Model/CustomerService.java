@@ -26,11 +26,10 @@ public class CustomerService {
             ResultSet rs = null;
             String sql_query = "SELECT user_pw FROM uzytkownik WHERE user_login=?";
             PreparedStatement prepStmt = ActualConnection.prepareStatement(sql_query);
-
             prepStmt.setString(1,user_login);
             rs = prepStmt.executeQuery();
-            if(rs.next()) // przejscie do kolejnego wiersza poniewaz standardowo zwracane s¹ informacje z wiersza '0'
-                    user_pass_in_db=rs.getString("user_pw");
+            if(rs.next()) // przejscie do kolejnego wiersza poniewaz standardowo zwracane sÂ¹ informacje z wiersza '0'
+                user_pass_in_db=rs.getString("user_pw");
         } catch (SQLException ex) {
             Logger lgr = Logger.getLogger(CustomerService.class.getName());
             lgr.log(Level.SEVERE, ex.getMessage(), ex);
@@ -43,7 +42,7 @@ public class CustomerService {
                 PasswordService pascheck = new PasswordService();
                 isError.Error_ = pascheck.CheckPassLength(NewPass);
                 if(pascheck.CheckPassLength(NewPass)!= ErrorType.ErrTypes.NO_ERRORS)
-                    return isError.Error_;
+                return isError.Error_;
                 if(pascheck.CheckPassMatch(NewPass, NewPass2)!= ErrorType.ErrTypes.NO_ERRORS)
                     return ErrorType.ErrTypes.PASSWORD_DOESNT_MATCH;
                 else{
@@ -51,12 +50,10 @@ public class CustomerService {
                     PreparedStatement prepStmt = ActualConnection.prepareStatement(sql_query);
                 }
             } catch (Exception e){
-                return ErrorType.ErrTypes.WRONG_PASSWORD;
+                    return ErrorType.ErrTypes.WRONG_PASSWORD;
             }
-
         }
-        return ErrorType.ErrTypes.NO_ERRORS;
-
-
+      return ErrorType.ErrTypes.NO_ERRORS;
     }
+
 }

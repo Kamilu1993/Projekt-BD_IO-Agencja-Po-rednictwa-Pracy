@@ -34,10 +34,6 @@ public class AccountSettings extends JFrame {
     public String getOldPass(){
         return String.valueOf(OldPass.getPassword());
     }
-    public String getNewPass(){
-        return String.valueOf(NewPass.getPassword());
-    }
-    public String getNewPass2(){
-        return String.valueOf(NewPass2.getPassword());
-    }
+    public String getNewPass(){return String.valueOf(NewPass.getPassword());}
+    public String getNewPass2(){ return String.valueOf(NewPass2.getPassword());}
 }

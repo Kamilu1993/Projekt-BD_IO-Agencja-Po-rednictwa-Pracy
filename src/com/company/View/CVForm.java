@@ -1,10 +1,9 @@
 package com.company.View;
 
-import com.sun.xml.internal.ws.api.pipe.FiberContextSwitchInterceptor;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 /**
  * Created by Bajtas on 2015-05-16.
@@ -16,7 +15,7 @@ public class CVForm extends JFrame{
     private JScrollPane ScrollBars2;
     private JPanel CVMainPanel;
     private JPanel TitlePanel;
-    private JButton dodajZdjęcieButton;
+    private JButton BtAddPhoto;
 
     //region DZIAŁ EDUKACJA
     private JTextField NameInput;
@@ -86,27 +85,76 @@ public class CVForm extends JFrame{
     //endregion
 
     //region DZIAŁ DOŚWIADCZENIE
-    private JLabel ExpName, ExpAdress;
-    private JTextField ExpNameInput, ExpAdressInput;
+    private JPanel WorkExperiancePanel;
+    private JLabel ExpLabels;
+    private JTextField ExpInput;
+    private ArrayList<JLabel> ExpLabelList = new ArrayList<JLabel>();
+    private ArrayList<JTextField> ExpInputList = new ArrayList<JTextField>();
+
+    private String Labels[] = {"Nazwa", "Adres", "Stanowisko", "Data rozpoczęcia", "Data zakończenia"};
+    private int Exp_label_oy, Exp_label_ox, Exp_input_oy, Exp_input_ox;
+    private float Exp_label_weightx, Exp_input_weightx;
+    private int ExpInputID;
+
+    private void setExpFieldLabels() {
+        for(int i=0; i<5;i++) {
+            ExpLabels = new JLabel(Labels[i]);
+            GridBagConstraints c = new GridBagConstraints();
+            c.fill = GridBagConstraints.HORIZONTAL;
+            c.gridx = Exp_label_ox;
+            c.gridy = Exp_label_oy;
+            Exp_label_oy++;
+            c.weightx = Exp_label_weightx;
+          //  ExpLabelList.add(ExpLabelID, ExpLabels);
+            WorkExperiancePanel.add(ExpLabels, c);
+        }
+    } // ustawienie napisów przy każdym z pól tekstowych
+    private void setExpFieldInput() {
+        for(int i=0; i<5;i++) {
+            ExpInput = new JTextField();
+            GridBagConstraints c = new GridBagConstraints();
+            c.fill = GridBagConstraints.HORIZONTAL;
+            c.gridx = Exp_input_ox;
+            c.gridy = Exp_input_oy;
+            Exp_input_oy++;
+            c.weightx = Exp_input_weightx;
+            ExpInputList.add(ExpInputID, ExpInput);
+            ExpInputID++;
+            WorkExperiancePanel.add(ExpInput, c);
+        }
+    }
+    public void addExperienceArea() {
+        setExpFieldLabels();
+        setExpFieldInput();
+        setExpBt();
+        revalidate();
+    }
+    private JButton BtAddWork;
+    private void setExpBt(){
+
+        GridBagConstraints c = new GridBagConstraints();
+        c.fill = GridBagConstraints.LAST_LINE_END;
+        c.anchor = GridBagConstraints.LAST_LINE_END;
+        c.insets.top = 10;
+        c.gridx = 1;
+        c.weightx = 2;
+        c.gridy = Exp_input_oy+1;
+        WorkExperiancePanel.add(BtAddWork, c);
+    }
     //endregion
 
-    private JPanel WorkExperiancePanel;
-    private JLabel EducationName1;
     private int Education_field;
-    private JButton BtAddWork;
-
     public CVForm(){
-        Education_field = 1;
+        Education_field=1;
         setTitle("Formularz dodawania nowego CV");
-        setMinimumSize(new Dimension(500,500));
-        setResizable(true);
+        setMinimumSize(new Dimension(500,500)); // minimalny rozmiar okna
+        setResizable(true); // mozliwosc roszerzania wlaczona
 
-        setLocationRelativeTo(null);
+        setLocationRelativeTo(null); // wysrodkowanie okna na ekranie
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setContentPane(new JLabel(new ImageIcon(CVForm.class.getResource("Images/addCV_bg.jpg")))); // pobranie tła
 
-        setContentPane(new JLabel(new ImageIcon(CVForm.class.getResource("Images/addCV_bg.jpg"))));
-
-        setLayout(new BorderLayout());
+        setLayout(new BorderLayout()); // ustawienie typu wygladu
         ScrollBars2 = new JScrollPane(RootPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         ScrollBars2.setMinimumSize(new Dimension(100,100));
         ScrollBars2.setPreferredSize(new Dimension(100, 100));
@@ -117,57 +165,16 @@ public class CVForm extends JFrame{
         ScrollBars2.setOpaque(false);
         add(ScrollBars2, BorderLayout.CENTER);
 
-        //region INICJALIZACJA PÓL DZIAŁU DOŚWIADCZENIE ZAWODOWE
-        ExpName = new JLabel("Nazwa");
-        GridBagConstraints c = new GridBagConstraints();
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridx = 0;
-        c.gridy = 0;
-        c.weightx = 0.85;
-        WorkExperiancePanel.add(ExpName, c);
+        Exp_label_oy = 0; Exp_input_oy=0;
+        Exp_label_ox=0; Exp_input_ox=1;
+        Exp_label_weightx=0.85f; Exp_input_weightx=2;
+        ExpInputID = 0;
 
-        ExpNameInput = new JTextField();
-        ExpNameInput.setVisible(true);
-        ExpNameInput.setName("ExpNameInput1");
-        c = new GridBagConstraints();
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridx = 1;
-        c.weightx = 2;
-        c.gridy = 0;
-        WorkExperiancePanel.add(ExpNameInput, c);
-
-        ExpAdress = new JLabel("Adres");
-        c = new GridBagConstraints();
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridx = 0;
-        c.gridy = 1;
-        c.weightx = 0.85;
-        WorkExperiancePanel.add(ExpAdress, c);
-
-        ExpAdressInput = new JTextField();
-        ExpAdressInput.setVisible(true);
-        ExpAdressInput.setName("ExpAdressInput1");
-        c = new GridBagConstraints();
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridx = 1;
-        c.weightx = 2;
-        c.gridy = 1;
-        WorkExperiancePanel.add(ExpAdressInput, c);
-
-        /*BtAddWork = new JButton("Dodaj pole");
+        BtAddWork = new JButton("Dodaj pole");
         BtAddWork.setIcon(new ImageIcon(CVForm.class.getResource("Images/addIcon.png")));
         BtAddWork.setHorizontalAlignment(JButton.RIGHT);
-        c = new GridBagConstraints();
-        c.fill = GridBagConstraints.HORIZONTAL;
-        //c.anchor = GridBagConstraints.LAST_LINE_END;
-        c.insets = new Insets(10,120,0,0);
-        c.gridx = 1;
-        c.gridy = 3;
 
-        //endregion
-
-        WorkExperiancePanel.add(BtAddWork, c);*/
-
+        addExperienceArea();
     }
     public void addController(ActionListener CustomerController) {
         //------------------- MENU --------------------------------
@@ -183,8 +190,6 @@ public class CVForm extends JFrame{
             public void run() {
                 switch (Education_field){
                     case 0:
-
-
                         EName2.setVisible(true);
                         ENameInput2.setVisible(true);
                         EAdress2.setVisible(true);
@@ -199,9 +204,6 @@ public class CVForm extends JFrame{
                         EDateEndInput2.setVisible(true);
                         break;
                     case 1:
-
-
-
                         EName3.setVisible(true);
                         ENameInput3.setVisible(true);
                         EAdress3.setVisible(true);

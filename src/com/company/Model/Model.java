@@ -1,7 +1,6 @@
 package com.company.Model;
 
 import com.company.ErrorType;
-import sun.security.krb5.internal.PAData;
 
 import java.sql.*;
 import java.util.logging.Logger;

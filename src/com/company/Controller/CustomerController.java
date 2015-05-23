@@ -50,6 +50,9 @@ public class CustomerController implements ActionListener {
         else if(e.getActionCommand().equals("Dodaj pole do EDUKACJA")){
             AddCVForm.addEducationArea();
         }
+        else if(e.getActionCommand().equals("Dodaj pole do DOSWIADCZENIE")){
+            AddCVForm.addExperienceArea();
+        }
         else if(e.getActionCommand().equals("Opcje Konta")){
             SettingsForm = new AccountSettings();
             SettingsForm.setVisible(true);
@@ -59,9 +62,9 @@ public class CustomerController implements ActionListener {
             ErrorType er=new ErrorType();
             er.Error_=Customer_SERVICE.AccountOptions_ChangePass(SettingsForm.getOldPass(), SettingsForm.getNewPass(), SettingsForm.getNewPass2());
             ErrorMsg.setErrorType(er);
-        }
+            }
         else if(e.getActionCommand().equals("ZmienEmail")){
             System.out.println("Nacisnieto przycisk zmien email");
-        }
+            }
     }
 }
