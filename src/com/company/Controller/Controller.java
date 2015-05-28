@@ -1,10 +1,10 @@
 package com.company.Controller;
 
 import com.company.ErrorType;
-import com.company.Model.CustomerService;
-import com.company.Model.PasswordService;
+import com.company.Model.*;
 import com.company.View.*;
-import com.company.Model.Model;
+import com.company.View.AdminGui;
+import jdk.internal.util.xml.impl.Input;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -24,12 +24,11 @@ public class Controller implements ActionListener, KeyListener{
     private ShowMessage ErrorMsg;
     private PasswordService PasswordEncrypter = new PasswordService();
     ErrorType isError = new ErrorType();
-
     private void StartLogIn() {
         RegForm.HideFrame(); // Ukrycie okna rejestracji
 
         //region Wstępne sprawdzanie poprawności wprowadzonych danych.
-        isError.Error_ = theModel.CheckInput(theLogin.GetUsername(), theLogin.GetPassword());
+        isError.Error_ = InputCheck.EmptyInput(theLogin.GetUsername(), theLogin.GetPassword());
         //endregion
 
         if (isError.Error_ == ErrorType.ErrTypes.NO_ERRORS) {
@@ -80,12 +79,25 @@ public class Controller implements ActionListener, KeyListener{
                                 info.SetTitle("Zalogowano pomyślnie... Trwa ładowanie aplikacji...");
                                 theLogin.HideLoginFrame();
 
+                                // TO wywalic POZNIEJ
+                                AdminController AdminFrame = new AdminController(new AdminGui(theLogin.GetUsername()), new AdminService(theModel.GetConnection()));
+
+
+
+                                // ----------------------
                                 CustomerGui Customer_GUI = new CustomerGui(theLogin.GetUsername(), theLogin);
                                 CustomerService Customer_SERVICE = new CustomerService(theModel.GetConnection(), theLogin.GetUsername());
                                 theLogin = null;
                                 theModel = null;
+
                                 CustomerController Customer_CONTROLLER = new CustomerController(Customer_GUI, Customer_SERVICE);
+
                                 Customer_CONTROLLER = null;
+                                break;
+                            case THIS_IS_EMPLOYEE_ACC:
+                                break;
+                            case THIS_IS_ADMIN_ACC:
+                                                                        //tu wkleic to z gory dla admina
                                 break;
                         }
                     } else
@@ -100,6 +112,7 @@ public class Controller implements ActionListener, KeyListener{
         else
             ErrorMsg.setErrorType(isError);
     }
+
     public void actionPerformed(ActionEvent e) {
         JButton b = (JButton) e.getSource(); // pobranie źródła klikniętego przycisku
 
@@ -117,7 +130,12 @@ public class Controller implements ActionListener, KeyListener{
 
         //region Naciśnięcie przycisku "ZAREJESTRUJ ..."
         if (b.getText() == "Zarejestruj ...") {
-            isError.Error_ = theModel.CheckInput(RegForm.GetLogin(), RegForm.GetPassword(), RegForm.GetEmail());
+            isError.Error_ = InputCheck.EmptyInput(RegForm.GetLogin(), RegForm.GetPassword(), RegForm.GetEmail());
+            if(isError.Error_!= ErrorType.ErrTypes.NO_ERRORS)
+                ErrorMsg.setErrorType(isError);
+            else
+                isError.Error_= InputCheck.ValidInput(RegForm.GetLogin(), RegForm.GetPassword(), RegForm.GetEmail());
+
             if (isError.Error_ == ErrorType.ErrTypes.NO_ERRORS) {
                 final Runnable run = new Runnable() {
                     public void run() {
@@ -176,7 +194,7 @@ public class Controller implements ActionListener, KeyListener{
         this.theLogin.addKeyListener(this);
         ErrorMsg = new ShowMessage();
         RegForm = new RegisterForm();
-    }// Konstruktor tworzący główne okno aplikacji
+    }//konstruktur kontrollera
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -185,6 +203,7 @@ public class Controller implements ActionListener, KeyListener{
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+            System.out.println("Naciśnięto przycisk ENTER.");
             StartLogIn();
         }
     }

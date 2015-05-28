@@ -54,7 +54,6 @@ public class RegisterForm extends JFrame{
         RegForm.add(BtReg);
     }
     private void SetFields() {
-        // TUTAJ ZMIEŃ
         LoginInput = new JTextField();
         LoginInput.setVisible(true);
         LoginInput.setSize(100,25);

@@ -14,7 +14,7 @@ import java.util.logging.Logger;
  */
 public class CustomerService {
     private Connection ActualConnection;
-    private String user_login;
+    private final String user_login;
     private ErrorType isError = new ErrorType();
     public CustomerService(Connection con, String username) {
         ActualConnection = con;
@@ -55,5 +55,18 @@ public class CustomerService {
         }
       return ErrorType.ErrTypes.NO_ERRORS;
     }
-
+    public byte[] addCVPhoto(){
+        PhotoService LoadFile = new PhotoService();
+        LoadFile.ShowFileDialog();
+        byte[] array = LoadFile.getImageByteArray();
+        if(array!=null)
+            return array;
+        return null;
+    }
+    public String GetUsername(){
+        return user_login;
+    }
+    public Connection GetConnection(){
+        return ActualConnection;
+    }
 }

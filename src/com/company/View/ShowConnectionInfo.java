@@ -10,21 +10,18 @@ import javax.swing.*;
  */
 public class ShowConnectionInfo implements Runnable {
     private JDialog Info;
-    public Thread t;
     private ImageIcon waitImg;
     private JLabel ImageLabel;
     //----------------------------------------------------------------------------------------//
 
-    //region Ustawienie pozycji okna oraz znajdujących sie na nim obiektów. (Konstruktor klasy i klasa wątka roboczego)
+    //region Ustawienie pozycji okna oraz znajdujących sie na nim obiektów. (Konstruktor klasy i metoda wątka roboczego)
     public ShowConnectionInfo() {
-        t = new Thread(this); // stworzenie nowego wątku dla tej klasy
         waitImg = new ImageIcon(Login.class.getResource("Images/loading.gif"));
 
-    } // Konstrutkor tworzacy nowy watek oraz wczytujacy plik "loading.gif"
+    } // metoda wątku, wczytujący plik "loading.gif"
     public void run() {
 
         Info = new JDialog();
-
         Info.setVisible(false);
         Info.setResizable(false);
         Info.setSize(325, 80);
@@ -32,15 +29,13 @@ public class ShowConnectionInfo implements Runnable {
         Info.setTitle("Proszę czekać...");
 
         ImageLabel = new JLabel();
-
         ImageLabel.setIcon(waitImg);
         ImageLabel.setLayout(null);
         ImageLabel.setVisible(true);
 
         Info.add(ImageLabel);
-    } // Klasa wątku, startowana z klasy kontrolera.
+    }
     //endregion
-
     public void SetTitle(String title)
     {
         ImageLabel.setText(title);

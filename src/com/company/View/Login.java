@@ -31,6 +31,7 @@ public class Login extends JFrame{
         LoginFrame.setVisible(false);
     }
     public Login() {
+        System.out.println("Ładowanie okna logowania...");
         int width = 250, height = 250;
         LoginFrame = new JFrame();
         LoginFrame.setContentPane(new JLabel(new ImageIcon(Login.class.getResource("Images/blue_bg.jpg")))); // wczytanie tła
@@ -51,7 +52,7 @@ public class Login extends JFrame{
         // PRZYCISK
         SetBtRegInto(100,"Zarejestruj");
         SetBtLogInto(100,"Zaloguj");
-
+        System.out.println("Okno logowania załadowano pomyślnie!");
         //LoginFrame.getContentPane().setBackground(Color.yellow);
     } // Konstruktor tworzący okno
     public void addKeyListener(KeyListener controller) {

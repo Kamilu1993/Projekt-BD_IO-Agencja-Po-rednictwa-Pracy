@@ -12,26 +12,30 @@ public class Model {
     private ErrorType isError = new ErrorType();
     //------------------------------------------------------------------------------------------//
     public boolean TryToConnect() {
+        System.out.println("Trwa nawiązywanie połączenia");
         Connection temp = ConnectToDB();
         if(temp!=null)
         {
+            System.out.println("Nawiązanie połączenia zakończone powodzeniem!");
             ActualConnection = temp;
             return true;
         }
+        System.out.println("Wystąpił błąd połączenia z bazą danych!");
         return false;
     } // Ustanowienie połączenia z bazą danych...
-    public ErrorType.ErrTypes CheckInput(String login, String password) {
-        return CheckForEmptyInput(login, password);
-    }
     public ErrorType.ErrTypes CheckInput(String login, String password, String email) {
-        isError.Error_ = CheckForEmptyInput(login, password, email);
+
+        //isError.Error_ = CheckForEmptyInput(login, password, email);
         if(isError.Error_ == ErrorType.ErrTypes.NO_ERRORS)
             return CheckForValidInput(login,password,email);
-        else
+        else {
+            System.out.println("Błąd!");
             return isError.Error_;
+        }
     }
     private ErrorType.ErrTypes CheckForValidInput(String login, String password, String email) {
         // LOGIN
+        System.out.println("Sprawdzanie zakazanych znaków w loginie...");
         for(int i=32;i<48;i++) {
             char c = (char)i;
             String s = "" + c;
@@ -51,11 +55,13 @@ public class Model {
                 return ErrorType.ErrTypes.LOGIN_NOT_ALLOWED;
         }
         /* --------- HASŁO --------- */
+        System.out.println("Sprawdzanie długości hasła...");
         PasswordService pascheck = new PasswordService();
         isError.Error_ = pascheck.CheckPassLength(password);
         if(pascheck.CheckPassLength(password)!= ErrorType.ErrTypes.NO_ERRORS)
             return isError.Error_;
         //EMAIL
+        System.out.println("Sprawdzanie poprawności adresu email...");
         String s;
         s = "@";
         String s2 = ".", s3 = ".@", s4 = "@.";
@@ -64,37 +70,13 @@ public class Model {
             return ErrorType.ErrTypes.EMAIL_WRONG_INPUT;
         if(email.contains(s3) || email.contains(s4))
             return ErrorType.ErrTypes.EMAIL_WRONG_INPUT;
+        System.out.println("Testy zakończone powodzeniem, rozpoczynam rejestracje...");
         return ErrorType.ErrTypes.NO_ERRORS;
     }
-    private ErrorType.ErrTypes CheckForEmptyInput(String login, String password) {
-        if(login.length()==0 && password.length()==0)
-            return ErrorType.ErrTypes.EMPTY_LOGIN_AND_PASSWORD;
-        else if(login.length()==0)
-            return ErrorType.ErrTypes.EMPTY_LOGIN;
-        else if(password.length()==0)
-            return ErrorType.ErrTypes.EMPTY_PASSWORD;
-        else
-            return ErrorType.ErrTypes.NO_ERRORS;
-    } // Sprawdzenie czy pola :LOGIN: i :HASŁO: nie są puste; Zwraca false(gdy ktores pole jest puste) i true(w przeciwym wypadku).
-    private ErrorType.ErrTypes CheckForEmptyInput(String login, String password, String email) {
-        if(login.length()==0 && password.length()==0 && email.length()==0)
-            return ErrorType.ErrTypes.EMPTY_LOGIN_PASSWORD_AND_EMAIL;
-        else if(email.length()==0 && password.length()==0)
-            return ErrorType.ErrTypes.EMPTY_PASSWORD_AND_EMAIL;
-        else if(email.length()==0 && login.length()==0)
-            return ErrorType.ErrTypes.EMPTY_LOGIN_AND_EMAIL;
-        else if(login.length()==0)
-            return ErrorType.ErrTypes.EMPTY_LOGIN;
-        else if(password.length()==0)
-            return ErrorType.ErrTypes.EMPTY_PASSWORD;
-        else if(email.length()==0)
-            return ErrorType.ErrTypes.EMPTY_EMAIL;
-        else
-            return ErrorType.ErrTypes.NO_ERRORS;
-    } // Sprawdzenie czy pola :LOGIN: i :HASŁO: nie są puste; Zwraca false(gdy ktores pole jest puste) i true(w przeciwym wypadku).
     private Connection ConnectToDB() {
         Connection c = null;
         try {
+            System.out.println("Wczytuje sterownik JDBC...");
             Class.forName("org.postgresql.Driver");
             c = DriverManager.getConnection("jdbc:postgresql://ec2-54-163-238-96.compute-1.amazonaws.com:5432/d67ebkto7j5lvk?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory",
                     "vqaihlhpyfrtzr","6oDG2S_0bHQpioBwVQSJ0jA2Yi");
@@ -106,6 +88,7 @@ public class Model {
         return c;
     } // Połączenie z bazą danych
     public ErrorType.ErrTypes RegisterUserInDB(String login, String password, String email) {
+        System.out.println("Rozpoczynam sprawdzanie zawartości pól...");
         isError.Error_ = CheckUserLogin(login);
         if(isError.Error_ != ErrorType.ErrTypes.NO_ERRORS) // sprawdzenie czy uzytkownik o podanym loginie jest juz w bazie
             return isError.Error_;
@@ -113,16 +96,18 @@ public class Model {
         if(isError.Error_ != ErrorType.ErrTypes.NO_ERRORS)
             return isError.Error_;
         else {
+            System.out.println("Wszystko się zgadza, rozpoczynam rejestracje użytkownika: "+login);
             AddNewUser(login, password, email);
             return ErrorType.ErrTypes.NO_ERRORS;
         }
     } // Klasa rozpoczynająca sprawdzanie poprawności wprowadzonych danych
     private void AddNewUser(String login, String password, String email) {
         try {
+            System.out.println("Trwa dodawanie użytkownika: "+login+" do bazy danych...");
             PreparedStatement pst = null;
             ResultSet rs = null;
             String sql_query = "INSERT INTO uzytkownik(user_login, user_pw, email) VALUES(?, ?, ?)";
-            Integer user_id=0;
+
 
             pst = ActualConnection.prepareStatement(sql_query);
             pst.setString(1, login);
@@ -130,7 +115,9 @@ public class Model {
             pst.setString(3, email);
             pst.executeUpdate();
 
-            /* Nowo zarejestrowani użytkownicy mają role 'klientów' */
+            /* Nowo zarejestrowani użytkownicy mają role 'klientów'
+            * DODANIE NOWEGO UŻYTKOWNIKA DO TABELI KLIENCI */
+            int user_id=0;
             sql_query = "SELECT user_id FROM uzytkownik WHERE user_login=?"; // pobranie id_uzytkownika
             pst = ActualConnection.prepareStatement(sql_query);
             pst.setString(1, login);
@@ -141,7 +128,7 @@ public class Model {
             pst = ActualConnection.prepareStatement(sql_query);
             pst.setInt(1, user_id);
             pst.executeUpdate();
-
+            System.out.println("Użytkownik: "+login+" ID: "+user_id);
         } catch (SQLException ex) {
             Logger lgr = Logger.getLogger(Model.class.getName());
             lgr.log(Level.SEVERE, ex.getMessage(), ex);
@@ -149,6 +136,7 @@ public class Model {
     } // Dodanie użytkownika do bazy danych
     private ErrorType.ErrTypes CheckUserEmail(String email) {
         try {
+            System.out.println("Sprawdzam czy email: "+email+" istnieje już w bazie...");
             ResultSet rs = null;
             String sql_query = "SELECT email FROM uzytkownik WHERE email=?";
             PreparedStatement prepStmt = ActualConnection.prepareStatement(sql_query);
@@ -167,6 +155,7 @@ public class Model {
     }
     private ErrorType.ErrTypes CheckUserLogin(String login) {
         try {
+            System.out.println("Sprawdzam czy login: "+login+" istnieje już w bazie...");
             ResultSet rs = null;
             String sql_query = "SELECT user_login FROM uzytkownik WHERE user_login=?";
             PreparedStatement prepStmt = ActualConnection.prepareStatement(sql_query);
@@ -184,6 +173,7 @@ public class Model {
         return ErrorType.ErrTypes.NO_ERRORS;
     }
     public ErrorType.ErrTypes CheckUserRole(String login) {
+        System.out.println("Sprawdzam typ logującego się użytkownika -> "+login);
         UserRole WhoIsThis = new UserRole();
         return WhoIsThis.CheckUserGroup(login, ActualConnection);
     } // sprawdzenie typu konta użytkownika

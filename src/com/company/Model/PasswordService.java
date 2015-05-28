@@ -23,7 +23,7 @@ public class PasswordService {
     public static void CheckPassword(String user_password, String user_passwordInDB) throws Exception{
         String EncryptedPassword = encrypt(user_password);
         if(EncryptedPassword.equals(user_passwordInDB))
-            System.out.println("Hasła sie zgadzają!");
+            System.out.println("Autoryzacja zakończona pomyślnie!");
         else
             throw new Exception("Hasła się nie zgadzają!");
     }
@@ -31,10 +31,12 @@ public class PasswordService {
 
     //region Konwersja hasła na hash MD5.
     public static String encrypt(String property) throws GeneralSecurityException, UnsupportedEncodingException {
+        System.out.println("Rozpoczynam szyfrowanie hasła...");
         SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("PBEWithMD5AndDES");
         SecretKey key = keyFactory.generateSecret(new PBEKeySpec(PASSWORD));
         Cipher pbeCipher = Cipher.getInstance("PBEWithMD5AndDES");
         pbeCipher.init(Cipher.ENCRYPT_MODE, key, new PBEParameterSpec(SALT, 20));
+        System.out.println("Trwa szyfrowanie...");
         return base64Encode(pbeCipher.doFinal(property.getBytes("UTF-8")));
     }
     private static String base64Encode(byte[] bytes) {
@@ -43,7 +45,7 @@ public class PasswordService {
     //endregion
 
     //region Sprawdzanie długości hasła.
-    public ErrorType.ErrTypes CheckPassLength(String password){
+    public static ErrorType.ErrTypes CheckPassLength(String password){
         /* --------- HASŁO --------- */
         if(password.length()<5)
             return ErrorType.ErrTypes.PASSWORD_TOO_SHORT;
