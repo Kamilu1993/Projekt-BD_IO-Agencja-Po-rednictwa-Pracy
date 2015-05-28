@@ -33,7 +33,7 @@
           </component>
         </children>
       </grid>
-      <grid id="c256a" layout-manager="GridLayoutManager" row-count="13" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="c256a" layout-manager="GridLayoutManager" row-count="16" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints border-constraint="Center"/>
         <properties>
@@ -149,7 +149,7 @@
           </grid>
           <vspacer id="7a1c7">
             <constraints>
-              <grid row="11" column="2" row-span="2" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+              <grid row="14" column="2" row-span="2" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
             </constraints>
           </vspacer>
           <hspacer id="390b9">
@@ -164,7 +164,7 @@
           </hspacer>
           <grid id="4f935" binding="WorkExperiancePanel" layout-manager="GridBagLayout">
             <constraints>
-              <grid row="10" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <grid row="12" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <opaque value="false"/>
@@ -212,7 +212,7 @@
               <horizontalAlignment value="11"/>
               <horizontalTextPosition value="11"/>
               <icon value="com/company/View/Images/tip_photo.png"/>
-              <text value="&lt;html&gt;Proszę wpisać datę &lt;br&gt;w formacie: DD/MM/RRRR&lt;/html&gt;"/>
+              <text value="&lt;html&gt;Proszę wpisać datę &lt;br&gt;w formacie: RRRR-MM-DD&lt;/html&gt;"/>
             </properties>
           </component>
           <component id="84137" class="javax.swing.JLabel">
@@ -250,12 +250,12 @@
           </grid>
           <grid id="bdad3" binding="InterestPanel" layout-manager="GridBagLayout">
             <constraints>
-              <grid row="10" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="12" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <opaque value="false"/>
             </properties>
-            <border type="none" title="Zainteresowania [opcjonalnie]"/>
+            <border type="etched" title="Zainteresowania [opcjonalnie]"/>
             <children/>
           </grid>
           <component id="bc296" class="javax.swing.JLabel">
@@ -280,7 +280,7 @@
           </grid>
           <grid id="c8d02" binding="EducationPanel" layout-manager="GridBagLayout">
             <constraints>
-              <grid row="9" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <grid row="9" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <background color="-16714511"/>
@@ -290,7 +290,7 @@
           </grid>
           <component id="8d8dc" class="javax.swing.JButton" binding="BtClose">
             <constraints>
-              <grid row="12" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="15" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <background color="-13782805"/>
@@ -300,7 +300,7 @@
           </component>
           <component id="f0147" class="javax.swing.JButton" binding="BtAddCV">
             <constraints>
-              <grid row="12" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="15" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <background color="-13782805"/>
@@ -308,6 +308,36 @@
               <text value="Dodaj CV do bazy danych"/>
             </properties>
           </component>
+          <vspacer id="e45c0">
+            <constraints>
+              <grid row="11" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+            </constraints>
+          </vspacer>
+          <vspacer id="8f873">
+            <constraints>
+              <grid row="10" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+            </constraints>
+          </vspacer>
+          <vspacer id="86f10">
+            <constraints>
+              <grid row="13" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+            </constraints>
+          </vspacer>
+          <vspacer id="334dd">
+            <constraints>
+              <grid row="13" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+            </constraints>
+          </vspacer>
+          <vspacer id="67e37">
+            <constraints>
+              <grid row="10" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+            </constraints>
+          </vspacer>
+          <vspacer id="22af7">
+            <constraints>
+              <grid row="11" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+            </constraints>
+          </vspacer>
         </children>
       </grid>
     </children>

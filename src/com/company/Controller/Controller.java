@@ -2,9 +2,8 @@ package com.company.Controller;
 
 import com.company.ErrorType;
 import com.company.Model.*;
+import com.company.Model.InputCheck;
 import com.company.View.*;
-import com.company.View.AdminGui;
-import jdk.internal.util.xml.impl.Input;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -79,25 +78,17 @@ public class Controller implements ActionListener, KeyListener{
                                 info.SetTitle("Zalogowano pomyślnie... Trwa ładowanie aplikacji...");
                                 theLogin.HideLoginFrame();
 
-                                // TO wywalic POZNIEJ
-                                AdminController AdminFrame = new AdminController(new AdminGui(theLogin.GetUsername()), new AdminService(theModel.GetConnection()));
-
-
-
-                                // ----------------------
                                 CustomerGui Customer_GUI = new CustomerGui(theLogin.GetUsername(), theLogin);
                                 CustomerService Customer_SERVICE = new CustomerService(theModel.GetConnection(), theLogin.GetUsername());
                                 theLogin = null;
                                 theModel = null;
-
                                 CustomerController Customer_CONTROLLER = new CustomerController(Customer_GUI, Customer_SERVICE);
-
                                 Customer_CONTROLLER = null;
                                 break;
                             case THIS_IS_EMPLOYEE_ACC:
                                 break;
                             case THIS_IS_ADMIN_ACC:
-                                                                        //tu wkleic to z gory dla admina
+                                AdminController AdminFrame = new AdminController(new AdminGui(theLogin.GetUsername()), new AdminService(theModel.GetConnection()));
                                 break;
                         }
                     } else
@@ -163,13 +154,15 @@ public class Controller implements ActionListener, KeyListener{
                         }
                         catch (Exception e)
                         {
-                            System.out.println("Wystąpił błąd z szyfrowanie hasła!");
+                            System.out.println("Wystąpił błąd z szyfrowaniem hasła!");
                         }
                         isError.Error_ = theModel.RegisterUserInDB(RegForm.GetLogin(), EncryptedPasswordInDB, RegForm.GetEmail());
                         if (isError.Error_ == ErrorType.ErrTypes.NO_ERRORS) {
                             info.SetTitle("Rejestracja zakończona powodzeniem...");
                             isError.Error_ = ErrorType.ErrTypes.REGISTER_SUCCESS;
                             ErrorMsg.setErrorType(isError);
+                            RegForm.HideFrame();
+                            info.HideDialog();
                             System.out.println("Pomyślnie dodano użytkownika do bazy danych! :)");
                         }
                         else

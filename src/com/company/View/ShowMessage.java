@@ -83,6 +83,9 @@ public class ShowMessage {
                 ErrorMessage("<html>Proszę wypełnić pola oznaczonę * w dziale Kursy<br>, lub pozostawić wszystkie pola" +
                         " z tego działu puste</html>");
                 break;
+            case WRONG_DATE_FORMAT:
+                ErrorMessage("Proszę podać datę w formacie: TUTAJ FORMAT");
+                break;
             case NO_ERRORS:
                 break;
             default:

@@ -1,6 +1,4 @@
 package com.company.Model;
-
-import com.company.ErrorType;
 import com.company.Model.UsersService.UserDelete;
 
 import java.sql.Connection;

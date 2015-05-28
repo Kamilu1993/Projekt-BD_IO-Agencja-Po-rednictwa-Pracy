@@ -19,6 +19,7 @@ public class CVForm extends JFrame{
     //region ZDJĘCIE
     private JButton BtAddPhoto;
     private JLabel PhotoLabel;
+    private byte[] PhotoArray;
     public void setPhoto(byte[] array){
         PhotoLabel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
         PhotoLabel.setIcon(new ImageIcon(array));
@@ -26,6 +27,9 @@ public class CVForm extends JFrame{
         PhotoLabel.revalidate();
         repaint();
         revalidate();
+    }
+    public byte[] GetPhoto(){
+        return PhotoArray;
     }
     //endregion
 
@@ -359,7 +363,7 @@ public class CVForm extends JFrame{
             c.gridy = Interest_input_oy;
             Interest_input_oy++;
             c.weightx = Interest_input_weightx;
-            InterestInputList.add(InterestInputID, CoursesInput);
+            InterestInputList.add(InterestInputID, InterestInput);
             InterestInputID++;
             InterestPanel.add(InterestInput, c);
         }
@@ -386,6 +390,7 @@ public class CVForm extends JFrame{
     //endregion
 
     public CVForm(){
+        PhotoArray = null;
         setTitle("Formularz dodawania nowego CV");
         setMinimumSize(new Dimension(500,500)); // minimalny rozmiar okna
         setResizable(true); // mozliwosc roszerzania wlaczona
@@ -497,5 +502,4 @@ public class CVForm extends JFrame{
         BtClose.setActionCommand("Wyjdz bez zapisywania");
         BtClose.addActionListener(CustomerController);
     }
-
 }

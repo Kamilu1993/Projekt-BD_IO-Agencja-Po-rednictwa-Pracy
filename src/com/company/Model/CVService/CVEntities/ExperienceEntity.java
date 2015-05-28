@@ -1,5 +1,7 @@
 package com.company.Model.CVService.CVEntities;
 
+import java.sql.Date;
+
 /**
  * Created by Bajtas on 2015-05-26.
  */
@@ -7,8 +9,15 @@ public class ExperienceEntity {
     private String Name; // nazwa
     private String Address; // adres
     private String Position; // stanowisko
-    private String StartDate;
-    private String EndDate;
+    private Date StartDate;
+    private Date EndDate;
+    public ExperienceEntity(){
+        Name = null;
+        Address = null;
+        Position = null;
+        StartDate = null;
+        EndDate = null;
+    }
     public void setName(String Name){
         this.Name = Name;
     }
@@ -16,10 +25,10 @@ public class ExperienceEntity {
         this.Position = Position;
     }
     public void setStartDate(String StartDate){
-        this.StartDate=StartDate;
+        this.StartDate=java.sql.Date.valueOf(StartDate);
     }
     public void setEndDate(String EndDate){
-        this.EndDate = EndDate;
+        this.EndDate = java.sql.Date.valueOf(EndDate);
     }
     public void setAddress(String Address){
         this.Address = Address;
@@ -33,10 +42,10 @@ public class ExperienceEntity {
     public String getAddress(){
         return this.Address;
     }
-    public String getStartDate(){
+    public Date getStartDate(){
         return this.StartDate;
     }
-    public String getEndDate(){
+    public Date getEndDate(){
         return this.EndDate;
     }
 }

@@ -77,7 +77,8 @@ public class CustomerController implements ActionListener {
                 CVService.Prep(Customer_SERVICE.GetUsername(), Customer_SERVICE.GetConnection());
                 CVService CVModel = new CVService();
                 CVModel.SaveAll(AddCVForm.GetBasicList(), AddCVForm.GetEducationList(), AddCVForm.GetExperienceList(),
-                        AddCVForm.GetSkillsList(), AddCVForm.GetCoursesList(), AddCVForm.GetInterestList());
+                        AddCVForm.GetSkillsList(), AddCVForm.GetCoursesList(), AddCVForm.GetInterestList(), AddCVForm.GetPhoto());
+                CVModel.AddAll();
             }
             else
                 ErrorMsg.setErrorType(er);

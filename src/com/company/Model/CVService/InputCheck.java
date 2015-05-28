@@ -1,9 +1,12 @@
 package com.company.Model;
 
 import com.company.ErrorType;
+import com.company.View.ShowMessage;
 
 import javax.swing.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by Bajtas on 2015-05-24.
@@ -106,6 +109,16 @@ public class InputCheck {
             JTextField text = BasicList.get(i);
             if(text.getText().equals("") && i<7)
                 return ErrorType.ErrTypes.BASIC_REQUIRED_FIELDS_EMPTY;
+            }
+        if(BasicList.get(2).getText().length()>0) {
+            try {
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                Date date = null;
+                date = df.parse(BasicList.get(2).getText());
+            } catch (Exception e) {
+                System.out.println(e);
+                return ErrorType.ErrTypes.WRONG_DATE_FORMAT;
+            }
         }
         return ErrorType.ErrTypes.NO_ERRORS;
     }
@@ -116,12 +129,31 @@ public class InputCheck {
         for(int i=0;i<EducationList.size();i++){
             if(i%6==0) {
                 if (EducationList.get(i).getText().equals("") || EducationList.get(i + 1).getText().equals("")){
-                    for(int j=i+2;j<i+6;j++)
+                    for(int j=i+2;j<i+6;j++) {
                         if (EducationList.get(j).getText().length() > 0)
                             return ErrorType.ErrTypes.EDUCATION_REQUIRED_FIELDS_EMPTY;
+                    }
                 }
-
-
+                if(EducationList.get(i+2).getText().length()>0){
+                    try{
+                        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                        Date date = null;
+                        date = df.parse(EducationList.get(i+2).getText());
+                    }catch(Exception e) {
+                        System.out.println(e);
+                        return ErrorType.ErrTypes.WRONG_DATE_FORMAT;
+                    }
+                }
+                else if(EducationList.get(i+3).getText().length()>0){
+                    try{
+                        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                        Date date = null;
+                        date = df.parse(EducationList.get(i+3).getText());
+                    }catch(Exception e) {
+                        System.out.println(e);
+                        return ErrorType.ErrTypes.WRONG_DATE_FORMAT;
+                    }
+                }
             }
         }
         return ErrorType.ErrTypes.NO_ERRORS;
@@ -137,7 +169,26 @@ public class InputCheck {
                         if (ExperienceList.get(j).getText().length() > 0)
                             return ErrorType.ErrTypes.EXPERIENCE_REQUIRED_FIELDS_EMPTY;
                 }
-
+                if(ExperienceList.get(i+3).getText().length()>0){
+                    try{
+                        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                        Date date = null;
+                        date = df.parse(ExperienceList.get(i+3).getText());
+                    }catch(Exception e) {
+                        System.out.println(e);
+                        return ErrorType.ErrTypes.WRONG_DATE_FORMAT;
+                    }
+                }
+                else if(ExperienceList.get(i+4).getText().length()>0){
+                    try{
+                        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                        Date date = null;
+                        date = df.parse(ExperienceList.get(i+4).getText());
+                    }catch(Exception e) {
+                        System.out.println(e);
+                        return ErrorType.ErrTypes.WRONG_DATE_FORMAT;
+                    }
+                }
 
             }
         }
