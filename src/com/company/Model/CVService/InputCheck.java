@@ -1,6 +1,7 @@
-package com.company.Model;
+package com.company.Model.CVService;
 
 import com.company.ErrorType;
+import com.company.Model.PasswordService;
 import com.company.View.ShowMessage;
 
 import javax.swing.*;

@@ -35,6 +35,7 @@ public class CustomerService {
             lgr.log(Level.SEVERE, ex.getMessage(), ex);
             return ErrorType.ErrTypes.UNKNOWN_ERROR;
         }
+
         if(!user_pass_in_db.equals("")) {
             PasswordService haslo = new PasswordService();
             try {

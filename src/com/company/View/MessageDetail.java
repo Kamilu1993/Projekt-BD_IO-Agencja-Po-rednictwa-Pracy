@@ -1,27 +1,40 @@
 package com.company.View;
 
+import com.company.Controller.Controller;
+import com.company.Model.ContactService.ContactEntities.ContactEntity;
+import com.company.Model.ContactService.ContactService;
+import com.company.Model.UserInfo;
+import com.company.Model.UserType;
+
+import javax.naming.ldap.Control;
 import javax.swing.*;
 import java.awt.event.*;
+import java.util.Calendar;
 
 public class MessageDetail extends JDialog {
     private JPanel contentPane;
-    private JButton buttonOK;
-    private JButton buttonCancel;
+    private JButton zamknijButton;
+    private JTextField tematText;
+    private JTextArea trescText;
+    private ContactEntity message;
+    MessageDetail self = this;
 
     public MessageDetail() {
         setContentPane(contentPane);
         setModal(true);
-        getRootPane().setDefaultButton(buttonOK);
+    }
 
-        buttonOK.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onOK();
-            }
-        });
+    public MessageDetail(ContactEntity message) {
+        this();
+        this.message = message;
+        setTitle("Szczegoly wiadomosci");
+        this.trescText.setText(message.getTresc());
+        this.tematText.setText(message.getTemat());
 
-        buttonCancel.addActionListener(new ActionListener() {
+        this.zamknijButton.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
-                onCancel();
+                self.dispose();
             }
         });
 
@@ -39,6 +52,32 @@ public class MessageDetail extends JDialog {
                 onCancel();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+    }
+
+    public MessageDetail(UserInfo info){
+        this();
+        setTitle("Wiadomosc do: " + info.getUserName());
+        message = new ContactEntity();
+        UserInfo currentUserInfo = Controller.getUserInfo();
+        message.setIdKlienta(info.getUserId());
+        message.setIdPracownika(currentUserInfo.getUserId());
+        trescText.setEditable(true);
+        tematText.setEditable(true);
+
+
+        zamknijButton.setText("Wyslij");;
+        zamknijButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ContactService service = new ContactService();
+                message.setTemat(tematText.getText());
+                message.setTresc(trescText.getText());
+                message.setDataWyslania(Calendar.getInstance().getTime());
+                service.sendMessage(message);
+            }
+        });
+
+
     }
 
     private void onOK() {

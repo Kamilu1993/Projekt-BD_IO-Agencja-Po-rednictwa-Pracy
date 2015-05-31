@@ -18,6 +18,7 @@ public class CustomerController implements ActionListener {
     CustomerGui Customer_GUI;
     CustomerService Customer_SERVICE;
     CVForm AddCVForm;
+    ContactDialog mailbox;
     AccountSettings SettingsForm;
     ShowMessage ErrorMsg = new ShowMessage();
 
@@ -71,8 +72,10 @@ public class CustomerController implements ActionListener {
         }
         else if(e.getActionCommand().equals("Dodaj CV do bazy danych")) {
             ErrorType er=new ErrorType();
-            er.Error_ = InputCheck.CheckCVInputs(AddCVForm.GetBasicList(), AddCVForm.GetEducationList(), AddCVForm.GetExperienceList(),
-                    AddCVForm.GetSkillsList(), AddCVForm.GetCoursesList());
+
+            er.Error_ = InputCheck.CheckCVInputs(AddCVForm.GetBasicList(), AddCVForm.GetEducationList(),
+                    AddCVForm.GetExperienceList(), AddCVForm.GetSkillsList(),
+                    AddCVForm.GetCoursesList(), AddCVForm.GetInterestList());
             if(er.Error_== ErrorType.ErrTypes.NO_ERRORS){
                 CVService.Prep(Customer_SERVICE.GetUsername(), Customer_SERVICE.GetConnection());
                 CVService CVModel = new CVService();
@@ -99,6 +102,11 @@ public class CustomerController implements ActionListener {
             System.out.println("Nacisnieto przycisk zmien email");
         }
         //----------------------------------------------------------------------
+        // RafalWos - Skrzynka mailowa
+        else if(e.getActionCommand().equals("GoToMailbox")) {
+            mailbox = new ContactDialog();
+            mailbox.setVisible(true);
+        }
         //endregion
     }
 }

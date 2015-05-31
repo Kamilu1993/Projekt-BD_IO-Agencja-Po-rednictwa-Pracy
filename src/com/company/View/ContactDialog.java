@@ -1,29 +1,59 @@
 package com.company.View;
 
+import com.company.Model.ContactService.ContactService;
+import com.company.Model.UserInfo;
+
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 public class ContactDialog extends JDialog {
     private JPanel contentPane;
-    private JButton buttonOK;
-    private JButton buttonCancel;
+    private JList listaKontaktow;
+    private JButton zobaczWiadomosci;
+    private JButton sendMessage;
+    private ContactService contactService;
+    private ContactDialog self = this;
 
     public ContactDialog() {
         setContentPane(contentPane);
         setModal(true);
-        getRootPane().setDefaultButton(buttonOK);
+        setTitle("Lista kontaktow");
+        setSize(new Dimension(400, 600));
+        zobaczWiadomosci.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                showMessagesDialog();
+            }
+        });
+        contactService = new ContactService();
 
-        buttonOK.addActionListener(new ActionListener() {
+        ArrayList<UserInfo> contacts = contactService.getRecipients();
+        listaKontaktow.setListData(contacts.toArray());
+
+        zobaczWiadomosci.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
-                onOK();
+                SeeMessages msgs = new SeeMessages();
+                msgs.setSize(new Dimension(500, 500));
+                msgs.setVisible(true);
             }
         });
 
-        buttonCancel.addActionListener(new ActionListener() {
+        sendMessage.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
-                onCancel();
+                if(listaKontaktow.getSelectedValue() == null){
+                    JOptionPane.showMessageDialog(self, "Prosze wybrac odbiorce wiadomosci");
+                } else {
+                    UserInfo info = (UserInfo)listaKontaktow.getSelectedValue();
+                    MessageDetail newMessage = new MessageDetail(info);
+                    newMessage.setSize(new Dimension(500, 500));
+                    newMessage.setVisible(true);
+                }
             }
         });
+
 
 // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -39,6 +69,10 @@ public class ContactDialog extends JDialog {
                 onCancel();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+    }
+
+    private void showMessagesDialog() {
+
     }
 
     private void onOK() {

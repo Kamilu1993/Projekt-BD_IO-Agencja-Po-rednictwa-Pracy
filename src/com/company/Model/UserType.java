@@ -6,5 +6,5 @@ package com.company.Model;
 
 public enum UserType
 {
-    KLIENT, PRACOWNIK
+    KLIENT, PRACOWNIK, ADMINISTRATOR
 }

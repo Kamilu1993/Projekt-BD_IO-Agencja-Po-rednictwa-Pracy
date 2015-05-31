@@ -16,6 +16,9 @@ import java.awt.event.KeyListener;
  */
 
 public class Controller implements ActionListener, KeyListener{
+    private static UserInfo userInfo = null;
+    public static UserInfo getUserInfo() { return userInfo; }
+
     private Login theLogin;
     private Model theModel;
     private ShowConnectionInfo info = new ShowConnectionInfo(); // Stowrzenie okna obsługującego komunikaty dotyczące logowania
@@ -44,7 +47,7 @@ public class Controller implements ActionListener, KeyListener{
             Thread appThread = new Thread() {
                 public void run() {
                     info.run();
-                    info.SetTitle("Proszę czekać.. Trwa łączenie z bazą danych...");
+                    info.SetTitle("Proszę czekać... Trwa łączenie z bazą danych...");
                     try {
                         SwingUtilities.invokeAndWait(dialogShow); // odwołanie do funkcji i oczekiwanie aż skończy swoje działanie
                     } catch (Exception e) {
@@ -80,18 +83,23 @@ public class Controller implements ActionListener, KeyListener{
 
                                 CustomerGui Customer_GUI = new CustomerGui(theLogin.GetUsername(), theLogin);
                                 CustomerService Customer_SERVICE = new CustomerService(theModel.GetConnection(), theLogin.GetUsername());
+                                userInfo = new UserInfo(theModel.GetUserId(theLogin.GetUsername()), theLogin.GetUsername(), UserType.KLIENT);
                                 theLogin = null;
                                 theModel = null;
                                 CustomerController Customer_CONTROLLER = new CustomerController(Customer_GUI, Customer_SERVICE);
                                 Customer_CONTROLLER = null;
+
                                 break;
                             case THIS_IS_EMPLOYEE_ACC:
+                                userInfo = new UserInfo(theModel.GetUserId(theLogin.GetUsername()), theLogin.GetUsername(), UserType.PRACOWNIK);
                                 break;
                             case THIS_IS_ADMIN_ACC:
                                 AdminController AdminFrame = new AdminController(new AdminGui(theLogin.GetUsername()), new AdminService(theModel.GetConnection()));
+                                userInfo = new UserInfo(theModel.GetUserId(theLogin.GetUsername()), theLogin.GetUsername(), UserType.ADMINISTRATOR);
                                 break;
                         }
-                    } else
+                    }
+                    else
                         ErrorMsg.setErrorType(isError); // błąd połączenia z bazą danych.
 
                     info.HideDialog();
