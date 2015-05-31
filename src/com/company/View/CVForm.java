@@ -19,7 +19,6 @@ public class CVForm extends JFrame{
     //region ZDJĘCIE
     private JButton BtAddPhoto;
     private JLabel PhotoLabel;
-    private byte[] PhotoArray;
     public void setPhoto(byte[] array){
         PhotoLabel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
         PhotoLabel.setIcon(new ImageIcon(array));
@@ -27,9 +26,6 @@ public class CVForm extends JFrame{
         PhotoLabel.revalidate();
         repaint();
         revalidate();
-    }
-    public byte[] GetPhoto(){
-        return PhotoArray;
     }
     //endregion
 
@@ -156,7 +152,7 @@ public class CVForm extends JFrame{
     private int ExpInputID;
 
     private void setExpFieldLabels() {
-        String Labels[] = {"Nazwa*", "Adres*", "Stanowisko", "Data rozpoczęcia", "Data zakończenia"};
+        String Labels[] = {"Nazwa", "Adres", "Stanowisko", "Data rozpoczęcia", "Data zakończenia"};
         for(int i=0; i<5;i++) {
             ExpLabels = new JLabel(Labels[i]);
             GridBagConstraints c = new GridBagConstraints();
@@ -217,7 +213,7 @@ public class CVForm extends JFrame{
     private int SkillsInputID;
 
     private void setSkillsFieldLabels() {
-        String Labels[] = {"Nazwa*", "Stopień zaawansowania"};
+        String Labels[] = {"Nazwa", "Stopień zaawansowania"};
         int nr = Labels.length;
         for(int i=0; i<2;i++) {
             SkillsLabels = new JLabel(Labels[i]);
@@ -278,7 +274,7 @@ public class CVForm extends JFrame{
     private int CoursesInputID;
 
     private void setCoursesFieldLabels() {
-        String Labels[] = {"Nazwa*", "Data rozpoczęcia", "Data zakończenia"};
+        String Labels[] = {"Nazwa", "Data rozpoczęcia", "Data zakończenia"};
         int nr = Labels.length;
         for(int i=0; i<nr;i++) {
             CoursesLabels = new JLabel(Labels[i]);
@@ -363,7 +359,7 @@ public class CVForm extends JFrame{
             c.gridy = Interest_input_oy;
             Interest_input_oy++;
             c.weightx = Interest_input_weightx;
-            InterestInputList.add(InterestInputID, InterestInput);
+            InterestInputList.add(InterestInputID, CoursesInput);
             InterestInputID++;
             InterestPanel.add(InterestInput, c);
         }
@@ -390,7 +386,6 @@ public class CVForm extends JFrame{
     //endregion
 
     public CVForm(){
-        PhotoArray = null;
         setTitle("Formularz dodawania nowego CV");
         setMinimumSize(new Dimension(500,500)); // minimalny rozmiar okna
         setResizable(true); // mozliwosc roszerzania wlaczona
@@ -502,4 +497,5 @@ public class CVForm extends JFrame{
         BtClose.setActionCommand("Wyjdz bez zapisywania");
         BtClose.addActionListener(CustomerController);
     }
+
 }

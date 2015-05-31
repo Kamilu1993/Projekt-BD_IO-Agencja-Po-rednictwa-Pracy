@@ -106,5 +106,8 @@ public class CustomerGui extends JFrame{
 
         BtAccountOptions.setActionCommand("Opcje Konta");
         BtAccountOptions.addActionListener(CustomerController);
+
+        BtShowAllOffers.setActionCommand("Przegladaj oferty");
+        BtShowAllOffers.addActionListener(CustomerController);
     }
 }

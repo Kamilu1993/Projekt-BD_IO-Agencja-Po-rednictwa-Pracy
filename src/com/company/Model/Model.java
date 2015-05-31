@@ -1,6 +1,7 @@
 package com.company.Model;
 
 import com.company.ErrorType;
+import com.company.View.PracownikGui;
 
 import java.sql.*;
 import java.util.logging.Logger;

@@ -1,7 +1,8 @@
 package com.company.Controller;
 
 import com.company.ErrorType;
-import com.company.Model.CVService.CVService;
+import com.company.Model.AddCVToDB;
+import com.company.Model.CustomerService;
 import com.company.Model.CustomerService;
 import com.company.Model.InputCheck;
 import com.company.Model.Model;
@@ -20,6 +21,7 @@ public class CustomerController implements ActionListener {
     CVForm AddCVForm;
     ContactDialog mailbox;
     AccountSettings SettingsForm;
+    Oferty OfertyForm;
     ShowMessage ErrorMsg = new ShowMessage();
 
     public CustomerController(CustomerGui gui, CustomerService service)
@@ -30,6 +32,7 @@ public class CustomerController implements ActionListener {
         Customer_GUI.ShowCGUI();
         Customer_GUI.addController(this);
     }
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -71,17 +74,12 @@ public class CustomerController implements ActionListener {
             }
         }
         else if(e.getActionCommand().equals("Dodaj CV do bazy danych")) {
+            AddCVToDB.Prep(Customer_SERVICE.GetUsername(), Customer_SERVICE.GetConnection());
             ErrorType er=new ErrorType();
-
-            er.Error_ = InputCheck.CheckCVInputs(AddCVForm.GetBasicList(), AddCVForm.GetEducationList(),
-                    AddCVForm.GetExperienceList(), AddCVForm.GetSkillsList(),
-                    AddCVForm.GetCoursesList(), AddCVForm.GetInterestList());
+            er.Error_ = InputCheck.CheckCVInputs(AddCVForm.GetBasicList(), AddCVForm.GetEducationList(), AddCVForm.GetExperienceList(),
+                    AddCVForm.GetSkillsList(), AddCVForm.GetCoursesList(), AddCVForm.GetInterestList());
             if(er.Error_== ErrorType.ErrTypes.NO_ERRORS){
-                CVService.Prep(Customer_SERVICE.GetUsername(), Customer_SERVICE.GetConnection());
-                CVService CVModel = new CVService();
-                CVModel.SaveAll(AddCVForm.GetBasicList(), AddCVForm.GetEducationList(), AddCVForm.GetExperienceList(),
-                        AddCVForm.GetSkillsList(), AddCVForm.GetCoursesList(), AddCVForm.GetInterestList(), AddCVForm.GetPhoto());
-                CVModel.AddAll();
+
             }
             else
                 ErrorMsg.setErrorType(er);
@@ -108,5 +106,11 @@ public class CustomerController implements ActionListener {
             mailbox.setVisible(true);
         }
         //endregion
+
+        // ------------------------- PRZEGLADAJ OFERTY - JAGODA ZACHARKO -------------------------//
+        else if(e.getActionCommand().equals("Przegladaj oferty")){
+            OfertyForm = new Oferty();
+            OfertyForm.setVisible(true);
+        }
     }
 }

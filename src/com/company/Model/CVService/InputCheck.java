@@ -96,7 +96,7 @@ public class InputCheck {
             return ErrorType.ErrTypes.EDUCATION_REQUIRED_FIELDS_EMPTY;
         else if(EmptyExperienceInfo(ExperienceList) == ErrorType.ErrTypes.EXPERIENCE_REQUIRED_FIELDS_EMPTY)
             return ErrorType.ErrTypes.EXPERIENCE_REQUIRED_FIELDS_EMPTY;
-        else if(EmptySkillsInfo(SkillsList) == ErrorType.ErrTypes.EXPERIENCE_REQUIRED_FIELDS_EMPTY)
+        else if(EmptySkillsInfo(SkillsList) == ErrorType.ErrTypes.SKILLS_REQUIRED_FIELDS_EMPTY)
             return ErrorType.ErrTypes.SKILLS_REQUIRED_FIELDS_EMPTY;
         else if(EmptyCoursesInfo(CoursesList) == ErrorType.ErrTypes.COURSES_REQUIRED_FIELDS_EMPTY)
             return ErrorType.ErrTypes.COURSES_REQUIRED_FIELDS_EMPTY;
