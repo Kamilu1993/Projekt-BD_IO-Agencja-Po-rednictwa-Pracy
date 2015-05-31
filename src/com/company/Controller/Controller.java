@@ -2,8 +2,9 @@ package com.company.Controller;
 
 import com.company.ErrorType;
 import com.company.Model.*;
-import com.company.Model.InputCheck;
+import com.company.Model.CustomerService;
 import com.company.View.*;
+import jdk.internal.util.xml.impl.Input;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -73,6 +74,7 @@ public class Controller implements ActionListener, KeyListener{
                                     ErrorMsg.setErrorType(isError);
                                     break;
                                 }
+
                                 //############################################################//
                                         /* ŁADOWANIE OKNA APLIKACJI DLA KLIENTA */
                                 info.SetTitle("Zalogowano pomyślnie... Trwa ładowanie aplikacji...");
@@ -84,13 +86,21 @@ public class Controller implements ActionListener, KeyListener{
                                 theModel = null;
                                 CustomerController Customer_CONTROLLER = new CustomerController(Customer_GUI, Customer_SERVICE);
                                 Customer_CONTROLLER = null;
+
+
                                 break;
+
                             case THIS_IS_EMPLOYEE_ACC:
-                                break;
-                            case THIS_IS_ADMIN_ACC:
-                                AdminController AdminFrame = new AdminController(new AdminGui(theLogin.GetUsername()), new AdminService(theModel.GetConnection()));
-                                break;
+                                PracownikGui.Prepare(theModel.GetConnection(), theLogin.GetUsername());
+                                PracownikInc gui = new PracownikInc(); // INC !!!
+                                gui.setVisible(true);
+
+                                theLogin.HideLoginFrame();
                         }
+
+
+
+
                     } else
                         ErrorMsg.setErrorType(isError); // błąd połączenia z bazą danych.
 
@@ -154,15 +164,13 @@ public class Controller implements ActionListener, KeyListener{
                         }
                         catch (Exception e)
                         {
-                            System.out.println("Wystąpił błąd z szyfrowaniem hasła!");
+                            System.out.println("Wystąpił błąd z szyfrowanie hasła!");
                         }
                         isError.Error_ = theModel.RegisterUserInDB(RegForm.GetLogin(), EncryptedPasswordInDB, RegForm.GetEmail());
                         if (isError.Error_ == ErrorType.ErrTypes.NO_ERRORS) {
                             info.SetTitle("Rejestracja zakończona powodzeniem...");
                             isError.Error_ = ErrorType.ErrTypes.REGISTER_SUCCESS;
                             ErrorMsg.setErrorType(isError);
-                            RegForm.HideFrame();
-                            info.HideDialog();
                             System.out.println("Pomyślnie dodano użytkownika do bazy danych! :)");
                         }
                         else
