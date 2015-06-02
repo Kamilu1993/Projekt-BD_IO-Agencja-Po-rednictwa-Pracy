@@ -2,7 +2,6 @@ package com.company.Model.CVService;
 
 import com.company.ErrorType;
 import com.company.Model.PasswordService;
-import com.company.View.ShowMessage;
 
 import javax.swing.*;
 import java.text.SimpleDateFormat;
@@ -26,7 +25,6 @@ public class InputCheck {
         }
     } // Sprawdzenie czy pola :LOGIN: i :HASŁO: nie są puste
     //endregion
-
     //region REJESTRACJA
 
     public static ErrorType.ErrTypes EmptyInput(String ULogin, String UPassword, String UEmail) {
@@ -92,14 +90,22 @@ public class InputCheck {
         //ErrorType er = new ErrorType();
         if(EmptyBasicInfo(BasicList) == ErrorType.ErrTypes.BASIC_REQUIRED_FIELDS_EMPTY)
             return ErrorType.ErrTypes.BASIC_REQUIRED_FIELDS_EMPTY;
+        else if(EmptyBasicInfo(BasicList) == ErrorType.ErrTypes.WRONG_DATE_FORMAT)
+            return ErrorType.ErrTypes.WRONG_DATE_FORMAT;
         else if (EmptyEducationInfo(EducationList) == ErrorType.ErrTypes.EDUCATION_REQUIRED_FIELDS_EMPTY)
             return ErrorType.ErrTypes.EDUCATION_REQUIRED_FIELDS_EMPTY;
+        else if(EmptyEducationInfo(EducationList) == ErrorType.ErrTypes.WRONG_DATE_FORMAT)
+            return ErrorType.ErrTypes.WRONG_DATE_FORMAT;
         else if(EmptyExperienceInfo(ExperienceList) == ErrorType.ErrTypes.EXPERIENCE_REQUIRED_FIELDS_EMPTY)
             return ErrorType.ErrTypes.EXPERIENCE_REQUIRED_FIELDS_EMPTY;
-        else if(EmptySkillsInfo(SkillsList) == ErrorType.ErrTypes.SKILLS_REQUIRED_FIELDS_EMPTY)
+        else if(EmptyExperienceInfo(ExperienceList) == ErrorType.ErrTypes.WRONG_DATE_FORMAT)
+            return ErrorType.ErrTypes.WRONG_DATE_FORMAT;
+        else if(EmptySkillsInfo(SkillsList) == ErrorType.ErrTypes.EXPERIENCE_REQUIRED_FIELDS_EMPTY)
             return ErrorType.ErrTypes.SKILLS_REQUIRED_FIELDS_EMPTY;
         else if(EmptyCoursesInfo(CoursesList) == ErrorType.ErrTypes.COURSES_REQUIRED_FIELDS_EMPTY)
             return ErrorType.ErrTypes.COURSES_REQUIRED_FIELDS_EMPTY;
+        else if(EmptyCoursesInfo(CoursesList) == ErrorType.ErrTypes.WRONG_DATE_FORMAT)
+            return ErrorType.ErrTypes.WRONG_DATE_FORMAT;
         else
             return ErrorType.ErrTypes.NO_ERRORS;
     }
@@ -124,7 +130,6 @@ public class InputCheck {
         return ErrorType.ErrTypes.NO_ERRORS;
     }
     //endregion
-
     //region Dodawanie CV - EDUKACJA
     public static ErrorType.ErrTypes EmptyEducationInfo(ArrayList<JTextField> EducationList){
         for(int i=0;i<EducationList.size();i++){
@@ -135,21 +140,21 @@ public class InputCheck {
                             return ErrorType.ErrTypes.EDUCATION_REQUIRED_FIELDS_EMPTY;
                     }
                 }
-                if(EducationList.get(i+2).getText().length()>0){
+                if(EducationList.get(i+4).getText().length()>0){
                     try{
                         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
                         Date date = null;
-                        date = df.parse(EducationList.get(i+2).getText());
+                        date = df.parse(EducationList.get(i+4).getText());
                     }catch(Exception e) {
                         System.out.println(e);
                         return ErrorType.ErrTypes.WRONG_DATE_FORMAT;
                     }
                 }
-                else if(EducationList.get(i+3).getText().length()>0){
+                else if(EducationList.get(i+5).getText().length()>0){
                     try{
                         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
                         Date date = null;
-                        date = df.parse(EducationList.get(i+3).getText());
+                        date = df.parse(EducationList.get(i+5).getText());
                     }catch(Exception e) {
                         System.out.println(e);
                         return ErrorType.ErrTypes.WRONG_DATE_FORMAT;
@@ -160,12 +165,15 @@ public class InputCheck {
         return ErrorType.ErrTypes.NO_ERRORS;
     }
     //endregion
-
     //region Dodawanie CV - DOŚWIADCZENIE
     public static ErrorType.ErrTypes EmptyExperienceInfo(ArrayList<JTextField> ExperienceList){
         for(int i=0;i<ExperienceList.size();i++){
             if(i%5==0) {
-                if (ExperienceList.get(i).getText().equals("") || ExperienceList.get(i + 1).getText().equals("")){
+                if(ExperienceList.get(i).getText().length()>0 && ExperienceList.get(i + 1).getText().length() ==0)
+                    return ErrorType.ErrTypes.EXPERIENCE_REQUIRED_FIELDS_EMPTY;
+                if(ExperienceList.get(i).getText().length()==0 && ExperienceList.get(i + 1).getText().length()>0)
+                    return ErrorType.ErrTypes.EXPERIENCE_REQUIRED_FIELDS_EMPTY;
+                if (ExperienceList.get(i).getText().length()==0 || ExperienceList.get(i + 1).getText().length() ==0){
                     for(int j=i+2;j<i+5;j++)
                         if (ExperienceList.get(j).getText().length() > 0)
                             return ErrorType.ErrTypes.EXPERIENCE_REQUIRED_FIELDS_EMPTY;
@@ -211,9 +219,29 @@ public class InputCheck {
     //region Dodawanie CV - KURSY
     public static ErrorType.ErrTypes EmptyCoursesInfo(ArrayList<JTextField> CoursesList){
         for(int i=0;i<CoursesList.size();i++){
-            if(i%4==0) {
+            if(i%3==0) {
                 if (CoursesList.get(i).getText().equals("") && CoursesList.get(i+1).getText().length()>0)
                     return ErrorType.ErrTypes.COURSES_REQUIRED_FIELDS_EMPTY;
+                if(CoursesList.get(i + 1).getText().length()>0){
+                    try{
+                        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                        Date date = null;
+                        date = df.parse(CoursesList.get(i+1).getText());
+                    }catch(Exception e) {
+                        System.out.println(e);
+                        return ErrorType.ErrTypes.WRONG_DATE_FORMAT;
+                    }
+                }
+                else if(CoursesList.get(i+2).getText().length()>0){
+                    try{
+                        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                        Date date = null;
+                        date = df.parse(CoursesList.get(i+2).getText());
+                    }catch(Exception e) {
+                        System.out.println(e);
+                        return ErrorType.ErrTypes.WRONG_DATE_FORMAT;
+                    }
+                }
             }
         }
         return ErrorType.ErrTypes.NO_ERRORS;

@@ -3,11 +3,8 @@ package com.company.Controller;
 import com.company.ErrorType;
 import com.company.Model.AdminService;
 import com.company.Model.CVService.CVService;
-import com.company.Model.InputCheck;
 import com.company.Model.Model;
-import com.company.View.AccountSettings;
 import com.company.View.AdminGui;
-import com.company.View.CVForm;
 import com.company.View.Login;
 
 import javax.swing.*;
@@ -38,7 +35,7 @@ public class AdminController implements ActionListener{
             Controller MainController = new Controller(new Login(), new Model());
         }
         if(e.getActionCommand().equals("ODSWIEZ")) {
-            System.out.println("Odœwie¿am...");
+            System.out.println("Odï¿½wieï¿½am...");
             Admin_Gui.setUsers(Admin_Service.getUsers());
         }
         if(e.getActionCommand().equals("USUN")){

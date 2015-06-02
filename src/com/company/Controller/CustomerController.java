@@ -1,12 +1,17 @@
 package com.company.Controller;
 
 import com.company.ErrorType;
-import com.company.Model.AddCVToDB;
+import com.company.Model.CVService.CVEntities.BasicInfoEntity;
+import com.company.Model.CVService.CVSave;
+import com.company.Model.CVService.CVService;
+import com.company.Model.CVService.InputCheck;
 import com.company.Model.CustomerService;
-import com.company.Model.CustomerService;
-import com.company.Model.InputCheck;
 import com.company.Model.Model;
 import com.company.View.*;
+import com.company.View.AccountSettings;
+import com.company.View.Customer.CVForm;
+import com.company.View.Customer.CVSummation;
+import com.company.View.Customer.CustomerGui;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -19,10 +24,10 @@ public class CustomerController implements ActionListener {
     CustomerGui Customer_GUI;
     CustomerService Customer_SERVICE;
     CVForm AddCVForm;
-    ContactDialog mailbox;
     AccountSettings SettingsForm;
-    Oferty OfertyForm;
     ShowMessage ErrorMsg = new ShowMessage();
+    CVSummation SummationForm;
+    CVService CVModel;
 
     public CustomerController(CustomerGui gui, CustomerService service)
     {
@@ -32,7 +37,6 @@ public class CustomerController implements ActionListener {
         Customer_GUI.ShowCGUI();
         Customer_GUI.addController(this);
     }
-
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -52,6 +56,35 @@ public class CustomerController implements ActionListener {
         }
         //---------------------------------------------------------------------------
         // ------------------ NOWE CV -----------------------------------------------
+        else if(e.getActionCommand().equals("CV - ANULUJ")) {
+            SummationForm.setVisible(false);
+            SummationForm = null;}
+        else if(e.getActionCommand().equals("CV - ZAPISZ"))
+            CVSave.SaveAs(CVModel.getBasicInfo(), BasicInfoEntity.getPhoto(), CVModel.getEducationInfo(),
+                    CVModel.getExperienceInfo(), CVModel.getSkillsInfo(), CVModel.getCoursesInfo(), CVModel.getInterestInfo());
+        else if(e.getActionCommand().equals("CV - WYSLIJ")){
+            final ShowConnectionInfo info = new ShowConnectionInfo();
+            final Runnable run = new Runnable() {
+                public void run() {
+                    info.ShowDialog();
+                }
+            };
+            Thread appThread = new Thread() {
+                public void run() {
+                    info.run();
+                    info.SetTitle("Trwa przetwarzanie...");
+                    try {
+                        SwingUtilities.invokeAndWait(run);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    CVModel.AddAll();
+                    info.HideDialog();
+                    JOptionPane.showMessageDialog(null, "Twoje CV zostało przesłane do bazy danych. :)", "Komunikat", JOptionPane.INFORMATION_MESSAGE);
+                }
+            };
+            appThread.start();
+        }
         else if(e.getActionCommand().equals("Dodaj pole do EDUKACJA"))
             AddCVForm.addEducationArea();
         else if(e.getActionCommand().equals("Dodaj pole do DOSWIADCZENIE"))
@@ -74,15 +107,24 @@ public class CustomerController implements ActionListener {
             }
         }
         else if(e.getActionCommand().equals("Dodaj CV do bazy danych")) {
-            AddCVToDB.Prep(Customer_SERVICE.GetUsername(), Customer_SERVICE.GetConnection());
-            ErrorType er=new ErrorType();
+            ErrorType er = new ErrorType();
             er.Error_ = InputCheck.CheckCVInputs(AddCVForm.GetBasicList(), AddCVForm.GetEducationList(), AddCVForm.GetExperienceList(),
-                    AddCVForm.GetSkillsList(), AddCVForm.GetCoursesList(), AddCVForm.GetInterestList());
-            if(er.Error_== ErrorType.ErrTypes.NO_ERRORS){
-
-            }
-            else
+                    AddCVForm.GetSkillsList(), AddCVForm.GetCoursesList());
+            if (er.Error_ == ErrorType.ErrTypes.NO_ERRORS) {
+                CVService.Prep(Customer_SERVICE.GetUsername(), Customer_SERVICE.GetConnection());
+                CVModel = new CVService();
+                CVModel.SaveAll(AddCVForm.GetBasicList(), AddCVForm.GetEducationList(), AddCVForm.GetExperienceList(),
+                        AddCVForm.GetSkillsList(), AddCVForm.GetCoursesList(), AddCVForm.GetInterestList(), AddCVForm.GetPhoto());
+                SummationForm = new CVSummation();
+                SummationForm.setFrame(CVModel.getBasicInfo(), CVModel.getEducationInfo(), CVModel.getSkillsInfo(), CVModel.getExperienceInfo(),
+                        CVModel.getCoursesInfo(), CVModel.getInterestInfo(), BasicInfoEntity.getPhoto());
+                SummationForm.setVisible(true);
+                SummationForm.addController(this);
+            } else
                 ErrorMsg.setErrorType(er);
+        }
+        else if(e.getActionCommand().equals("Wczytaj tlo...")){
+            //Customer_GUI.setBG(Customer_SERVICE.LoadBG());
         }
         //--------------------------------------------------------------------
 
@@ -100,17 +142,6 @@ public class CustomerController implements ActionListener {
             System.out.println("Nacisnieto przycisk zmien email");
         }
         //----------------------------------------------------------------------
-        // RafalWos - Skrzynka mailowa
-        else if(e.getActionCommand().equals("GoToMailbox")) {
-            mailbox = new ContactDialog();
-            mailbox.setVisible(true);
-        }
         //endregion
-
-        // ------------------------- PRZEGLADAJ OFERTY - JAGODA ZACHARKO -------------------------//
-        else if(e.getActionCommand().equals("Przegladaj oferty")){
-            OfertyForm = new Oferty();
-            OfertyForm.setVisible(true);
-        }
     }
 }

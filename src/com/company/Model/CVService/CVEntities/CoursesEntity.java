@@ -1,28 +1,32 @@
 package com.company.Model.CVService.CVEntities;
 
+import java.sql.Date;
+
 /**
  * Created by Bajtas on 2015-05-26.
  */
 public class CoursesEntity {
     private String Name;
-    private String StartDate;
-    private String EndDate;
+    private Date StartDate;
+    private Date EndDate;
     public void setName(String Name){
         this.Name = Name;
     }
     public void setStartDate(String StartDate){
-        this.StartDate=StartDate;
+        if(StartDate.length()>0)
+            this.StartDate=java.sql.Date.valueOf(StartDate);
     }
     public void setEndDate(String EndDate){
-        this.EndDate = EndDate;
+        if(EndDate.length()>0)
+            this.EndDate = java.sql.Date.valueOf(EndDate);
     }
     public String getName(){
         return this.Name;
     }
-    public String getStartDate(){
+    public Date getStartDate(){
         return this.StartDate;
     }
-    public String getEndDate(){
+    public Date getEndDate(){
         return this.EndDate;
     }
 }

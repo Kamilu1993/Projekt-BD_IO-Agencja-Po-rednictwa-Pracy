@@ -6,6 +6,10 @@ package com.company.Model.CVService.CVEntities;
 public class SkillsEntity {
     private String Name; // nazwa
     private String Grade; // stopień zaawansowania
+    public SkillsEntity(){
+        Name=null;
+        Grade=null;
+    }
     public void setName(String Name){
         this.Name = Name;
     }

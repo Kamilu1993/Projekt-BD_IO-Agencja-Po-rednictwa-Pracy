@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.company.View.Customer.CVSummation">
+  <grid id="27dc6" binding="RootPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+    <constraints>
+      <xy x="115" y="20" width="1096" height="547"/>
+    </constraints>
+    <properties>
+      <background color="-1"/>
+      <opaque value="true"/>
+    </properties>
+    <border type="none"/>
+    <children>
+      <component id="f8aed" class="javax.swing.JLabel">
+        <constraints border-constraint="North"/>
+        <properties>
+          <background color="-12727320"/>
+          <font size="14" style="2"/>
+          <horizontalAlignment value="0"/>
+          <opaque value="true"/>
+          <text value="CV - Podsumowanie"/>
+        </properties>
+      </component>
+      <grid id="5f129" layout-manager="GridBagLayout">
+        <constraints border-constraint="South"/>
+        <properties>
+          <background color="-12727320"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="b951e" class="javax.swing.JButton" binding="BtSendCV">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="10" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <actionCommand value=""/>
+              <background color="-393729"/>
+              <minimumSize width="70" height="150"/>
+              <preferredSize width="70" height="42"/>
+              <selected value="false"/>
+              <text value="Wyślij..."/>
+            </properties>
+          </component>
+          <component id="3fc0e" class="javax.swing.JButton" binding="BtCancelCV">
+            <constraints>
+              <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <background color="-393729"/>
+              <minimumSize width="65" height="150"/>
+              <preferredSize width="65" height="42"/>
+              <text value="Anuluj"/>
+            </properties>
+          </component>
+          <component id="b4d93" class="javax.swing.JButton" binding="BtSaveCV">
+            <constraints>
+              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <actionCommand value=""/>
+              <background color="-393729"/>
+              <minimumSize width="113" height="150"/>
+              <preferredSize width="113" height="42"/>
+              <text value="Zapisz na dysku"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <grid id="f9116" layout-manager="GridLayoutManager" row-count="9" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints border-constraint="Center"/>
+        <properties>
+          <opaque value="false"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <grid id="430db" layout-manager="BorderLayout" hgap="0" vgap="0">
+            <constraints>
+              <grid row="0" column="1" row-span="2" col-span="1" vsize-policy="3" hsize-policy="3" anchor="9" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <opaque value="false"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <component id="47dfc" class="javax.swing.JLabel" binding="PhotoLabel">
+                <constraints border-constraint="Center"/>
+                <properties>
+                  <preferredSize width="140" height="200"/>
+                  <text value=""/>
+                  <verticalAlignment value="1"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <hspacer id="73b98">
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+          </hspacer>
+          <vspacer id="84fb8">
+            <constraints>
+              <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+            </constraints>
+          </vspacer>
+          <grid id="a5f93" layout-manager="BorderLayout" hgap="0" vgap="0">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="9" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <opaque value="false"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <component id="21931" class="javax.swing.JLabel">
+                <constraints border-constraint="North"/>
+                <properties>
+                  <background color="-12727320"/>
+                  <font name="Gulim" size="48" style="3"/>
+                  <horizontalTextPosition value="11"/>
+                  <opaque value="false"/>
+                  <text value="Curriculum Vitae"/>
+                </properties>
+              </component>
+              <grid id="3dda" binding="BasicInfoPanel" layout-manager="GridBagLayout">
+                <constraints border-constraint="Center"/>
+                <properties>
+                  <opaque value="false"/>
+                </properties>
+                <border type="none" title="Dane podstawowe" title-justification="1">
+                  <font size="22" style="2"/>
+                </border>
+                <children/>
+              </grid>
+            </children>
+          </grid>
+          <grid id="9fe52" binding="EducationPanel" layout-manager="GridBagLayout">
+            <constraints>
+              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="9" fill="0" indent="0" use-parent-layout="false">
+                <preferred-size width="300" height="-1"/>
+              </grid>
+            </constraints>
+            <properties>
+              <opaque value="false"/>
+              <visible value="false"/>
+            </properties>
+            <border type="none" title="Wykształcenie">
+              <font size="22" style="2"/>
+            </border>
+            <children/>
+          </grid>
+          <grid id="5f479" binding="SkillsPanel" layout-manager="GridBagLayout">
+            <constraints>
+              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="9" fill="0" indent="0" use-parent-layout="false">
+                <preferred-size width="300" height="-1"/>
+              </grid>
+            </constraints>
+            <properties>
+              <opaque value="false"/>
+              <visible value="false"/>
+            </properties>
+            <border type="none" title="Umiejętności">
+              <font size="22" style="2"/>
+            </border>
+            <children/>
+          </grid>
+          <grid id="3f929" binding="ExperiencePanel" layout-manager="GridBagLayout">
+            <constraints>
+              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="9" fill="0" indent="0" use-parent-layout="false">
+                <preferred-size width="300" height="-1"/>
+              </grid>
+            </constraints>
+            <properties>
+              <opaque value="false"/>
+              <visible value="false"/>
+            </properties>
+            <border type="none" title="Doświadczenie">
+              <font size="22" style="2"/>
+            </border>
+            <children/>
+          </grid>
+          <grid id="b2fcf" binding="CoursesPanel" layout-manager="GridBagLayout">
+            <constraints>
+              <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="9" fill="0" indent="0" use-parent-layout="false">
+                <preferred-size width="300" height="-1"/>
+              </grid>
+            </constraints>
+            <properties>
+              <opaque value="false"/>
+              <visible value="false"/>
+            </properties>
+            <border type="none" title="Kursy">
+              <font size="22" style="2"/>
+            </border>
+            <children/>
+          </grid>
+          <grid id="fc659" binding="InterestPanel" layout-manager="GridBagLayout">
+            <constraints>
+              <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="9" fill="0" indent="0" use-parent-layout="false">
+                <preferred-size width="300" height="-1"/>
+              </grid>
+            </constraints>
+            <properties>
+              <opaque value="false"/>
+              <visible value="false"/>
+            </properties>
+            <border type="none" title="Zainteresowania">
+              <font size="22" style="2"/>
+            </border>
+            <children/>
+          </grid>
+          <component id="c7ca" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <font size="12" style="2"/>
+              <text value="Wyrażam zgodę na przetwarzanie moich danych osobowych dla celów rekrutacji, zgodnie z ustawą z dnia 29 sierpnia 1997 r. o ochronie danych osobowych (tj. Dz. U. Nr 101 z 2002 r., poz. 926 z późn. zm.)"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+    </children>
+  </grid>
+</form>

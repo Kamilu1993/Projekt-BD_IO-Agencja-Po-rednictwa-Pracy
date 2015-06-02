@@ -66,9 +66,25 @@ public class ShowMessage {
                 break;
             case BASIC_REQUIRED_FIELDS_EMPTY:
                 ErrorMessage("<html>Wymagane pola nie zostały wypełnione.<br>Proszę wypełnić pola danych podstawowych oznaczonych gwiazdką.</html>");
+                break;
             case EDUCATION_REQUIRED_FIELDS_EMPTY:
                 ErrorMessage("<html>Proszę wypełnić pola oznaczonę * w dziale Edukacja<br>, lub pozostawić wszystkie pola" +
                         " z tego działu puste</html>");
+                break;
+            case EXPERIENCE_REQUIRED_FIELDS_EMPTY:
+                ErrorMessage("<html>Proszę wypełnić pola oznaczonę * w dziale Doświadczenie zawodowe<br>, lub pozostawić wszystkie pola" +
+                        " z tego działu puste</html>");
+                break;
+            case SKILLS_REQUIRED_FIELDS_EMPTY:
+                ErrorMessage("<html>Proszę wypełnić pola oznaczonę * w dziale Umiejętności<br>, lub pozostawić wszystkie pola" +
+                        " z tego działu puste</html>");
+                break;
+            case COURSES_REQUIRED_FIELDS_EMPTY:
+                ErrorMessage("<html>Proszę wypełnić pola oznaczonę * w dziale Kursy<br>, lub pozostawić wszystkie pola" +
+                        " z tego działu puste</html>");
+                break;
+            case WRONG_DATE_FORMAT:
+                ErrorMessage("Proszę podać datę w formacie: TUTAJ FORMAT");
                 break;
             case NO_ERRORS:
                 break;

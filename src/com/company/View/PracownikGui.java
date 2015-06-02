@@ -1,4 +1,6 @@
 package com.company.View;
+import com.company.View.Customer.CustomerGui;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;

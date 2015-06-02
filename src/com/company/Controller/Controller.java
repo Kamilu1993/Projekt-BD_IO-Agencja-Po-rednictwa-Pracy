@@ -2,9 +2,10 @@ package com.company.Controller;
 
 import com.company.ErrorType;
 import com.company.Model.*;
-import com.company.Model.CustomerService;
+import com.company.Model.CVService.InputCheck;
 import com.company.View.*;
-import jdk.internal.util.xml.impl.Input;
+import com.company.View.AdminGui;
+import com.company.View.Customer.CustomerGui;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -16,15 +17,7 @@ import java.awt.event.KeyListener;
  *
  */
 
-public class Controller implements ActionListener, KeyListener {
-    private static UserInfo userInfo = null;
-
-    //statyczna metoda ktora zwraca nam user info, czyli info o zalogowanym uzytkowniku
-    //Controller.getUserInfo();
-    public static UserInfo getUserInfo() {
-        return userInfo;
-    }
-
+public class Controller implements ActionListener, KeyListener{
     private Login theLogin;
     private Model theModel;
     private ShowConnectionInfo info = new ShowConnectionInfo(); // Stowrzenie okna obsługującego komunikaty dotyczące logowania
@@ -32,7 +25,6 @@ public class Controller implements ActionListener, KeyListener {
     private ShowMessage ErrorMsg;
     private PasswordService PasswordEncrypter = new PasswordService();
     ErrorType isError = new ErrorType();
-
     private void StartLogIn() {
         RegForm.HideFrame(); // Ukrycie okna rejestracji
 
@@ -54,7 +46,7 @@ public class Controller implements ActionListener, KeyListener {
             Thread appThread = new Thread() {
                 public void run() {
                     info.run();
-                    info.SetTitle("Proszę czekać... Trwa łączenie z bazą danych...");
+                    info.SetTitle("Proszę czekać.. Trwa łączenie z bazą danych...");
                     try {
                         SwingUtilities.invokeAndWait(dialogShow); // odwołanie do funkcji i oczekiwanie aż skończy swoje działanie
                     } catch (Exception e) {
@@ -83,7 +75,6 @@ public class Controller implements ActionListener, KeyListener {
                                     ErrorMsg.setErrorType(isError);
                                     break;
                                 }
-
                                 //############################################################//
                                         /* ŁADOWANIE OKNA APLIKACJI DLA KLIENTA */
                                 info.SetTitle("Zalogowano pomyślnie... Trwa ładowanie aplikacji...");
@@ -91,42 +82,32 @@ public class Controller implements ActionListener, KeyListener {
 
                                 CustomerGui Customer_GUI = new CustomerGui(theLogin.GetUsername(), theLogin);
                                 CustomerService Customer_SERVICE = new CustomerService(theModel.GetConnection(), theLogin.GetUsername());
-                                //userInfo dostarcza informacji na temat zalogowanego uzytkownika. proszę nie usuwać, Rafał Woś
-                                userInfo = new UserInfo(theModel.GetUserId(theLogin.GetUsername()), theLogin.GetUsername(), UserType.KLIENT);
                                 theLogin = null;
                                 theModel = null;
                                 CustomerController Customer_CONTROLLER = new CustomerController(Customer_GUI, Customer_SERVICE);
                                 Customer_CONTROLLER = null;
-
                                 break;
-
                             case THIS_IS_EMPLOYEE_ACC:
-                                userInfo = new UserInfo(theModel.GetUserId(theLogin.GetUsername()), theLogin.GetUsername(), UserType.PRACOWNIK);
                                 PracownikGui.Prepare(theModel.GetConnection(), theLogin.GetUsername());
                                 PracownikInc gui = new PracownikInc(); // INC !!!
                                 gui.setVisible(true);
-
                                 theLogin.HideLoginFrame();
                                 break;
                             case THIS_IS_ADMIN_ACC:
                                 AdminController AdminFrame = new AdminController(new AdminGui(theLogin.GetUsername()), new AdminService(theModel.GetConnection()));
-                                userInfo = new UserInfo(theModel.GetUserId(theLogin.GetUsername()), theLogin.GetUsername(), UserType.ADMINISTRATOR);
                                 break;
                         }
-                    } else {
-                        ErrorMsg.setErrorType(isError);
-                    }
+                    } else
+                        ErrorMsg.setErrorType(isError); // błąd połączenia z bazą danych.
 
                     info.HideDialog();
                 }
             };
             appThread.start();
             //endregion
-        } else {
-            ErrorMsg.setErrorType(isError);
         }
-
-
+        else
+            ErrorMsg.setErrorType(isError);
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -147,10 +128,10 @@ public class Controller implements ActionListener, KeyListener {
         //region Naciśnięcie przycisku "ZAREJESTRUJ ..."
         if (b.getText() == "Zarejestruj ...") {
             isError.Error_ = InputCheck.EmptyInput(RegForm.GetLogin(), RegForm.GetPassword(), RegForm.GetEmail());
-            if (isError.Error_ != ErrorType.ErrTypes.NO_ERRORS)
+            if(isError.Error_!= ErrorType.ErrTypes.NO_ERRORS)
                 ErrorMsg.setErrorType(isError);
             else
-                isError.Error_ = InputCheck.ValidInput(RegForm.GetLogin(), RegForm.GetPassword(), RegForm.GetEmail());
+                isError.Error_= InputCheck.ValidInput(RegForm.GetLogin(), RegForm.GetPassword(), RegForm.GetEmail());
 
             if (isError.Error_ == ErrorType.ErrTypes.NO_ERRORS) {
                 final Runnable run = new Runnable() {
@@ -173,18 +154,24 @@ public class Controller implements ActionListener, KeyListener {
                             ErrorMsg.setErrorType(isError); // błąd połączenia z bazą danych
                         }
                         info.SetTitle("Nawiązano połączenie, trwa rejestracja...");
-                        try {
+                        try
+                        {
                             EncryptedPasswordInDB = PasswordEncrypter.encrypt(RegForm.GetPassword());
-                        } catch (Exception e) {
-                            System.out.println("Wystąpił błąd z szyfrowanie hasła!");
+                        }
+                        catch (Exception e)
+                        {
+                            System.out.println("Wystąpił błąd z szyfrowaniem hasła!");
                         }
                         isError.Error_ = theModel.RegisterUserInDB(RegForm.GetLogin(), EncryptedPasswordInDB, RegForm.GetEmail());
                         if (isError.Error_ == ErrorType.ErrTypes.NO_ERRORS) {
                             info.SetTitle("Rejestracja zakończona powodzeniem...");
                             isError.Error_ = ErrorType.ErrTypes.REGISTER_SUCCESS;
                             ErrorMsg.setErrorType(isError);
+                            RegForm.HideFrame();
+                            info.HideDialog();
                             System.out.println("Pomyślnie dodano użytkownika do bazy danych! :)");
-                        } else
+                        }
+                        else
                             ErrorMsg.setErrorType(isError);
                         info.HideDialog();
                     }
