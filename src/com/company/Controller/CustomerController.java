@@ -36,6 +36,8 @@ public class CustomerController implements ActionListener {
 
         Customer_GUI.ShowCGUI();
         Customer_GUI.addController(this);
+
+        Customer_GUI.setRecOfferList(Customer_SERVICE.getOffers());
     }
 
     @Override
@@ -122,9 +124,6 @@ public class CustomerController implements ActionListener {
                 SummationForm.addController(this);
             } else
                 ErrorMsg.setErrorType(er);
-        }
-        else if(e.getActionCommand().equals("Wczytaj tlo...")){
-            //Customer_GUI.setBG(Customer_SERVICE.LoadBG());
         }
         //--------------------------------------------------------------------
 

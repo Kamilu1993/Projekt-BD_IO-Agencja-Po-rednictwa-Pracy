@@ -112,6 +112,7 @@ public class InputCheck {
     //endregion
     //region Dodawanie CV - DANE PODSTAWOWE
     public static ErrorType.ErrTypes EmptyBasicInfo(ArrayList<JTextField> BasicList){
+        Date date = null;
         for(int i=0;i<BasicList.size();i++){
             JTextField text = BasicList.get(i);
             if(text.getText().equals("") && i<7)
@@ -120,13 +121,14 @@ public class InputCheck {
         if(BasicList.get(2).getText().length()>0) {
             try {
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-                Date date = null;
                 date = df.parse(BasicList.get(2).getText());
             } catch (Exception e) {
                 System.out.println(e);
                 return ErrorType.ErrTypes.WRONG_DATE_FORMAT;
             }
         }
+        if(date.toString().equals("Thu Nov 15 00:00:00 CET 14"))
+            return ErrorType.ErrTypes.WRONG_DATE_FORMAT;
         return ErrorType.ErrTypes.NO_ERRORS;
     }
     //endregion

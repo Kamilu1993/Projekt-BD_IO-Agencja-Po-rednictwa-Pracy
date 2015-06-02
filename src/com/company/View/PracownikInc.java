@@ -27,7 +27,7 @@ public class PracownikInc extends JFrame {
         setResizable(false);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setTitle("Panel pracownika");
-        setContentPane(new JLabel(new ImageIcon(CustomerGui.class.getResource("Images/pink2.jpg"))));
+        setContentPane(new JLabel(new ImageIcon(Login.class.getResource("Images/pink2.jpg"))));
 
      Zarzadzanie(); Aktualizuj(); Zamknij();
 

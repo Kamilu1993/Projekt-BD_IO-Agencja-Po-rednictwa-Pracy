@@ -62,7 +62,7 @@ public class PracownikGui extends JFrame{
         setResizable(false);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle("Panel pracownika: zarzadzanie ofertami pracy");
-        setContentPane(new JLabel(new ImageIcon(CustomerGui.class.getResource("Images/pink2.jpg"))));
+        setContentPane(new JLabel(new ImageIcon(Login.class.getResource("Images/pink2.jpg"))));
 
         Tekscik.setLineWrap(true);
         Tekscik.setWrapStyleWord(true);

@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.sql.ResultSet;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -64,7 +65,7 @@ public class CustomerGui extends JFrame{
         menuItem2 = new JMenuItem("Wyloguj...");
         menuItem2.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F1, ActionEvent.ALT_MASK));
         menuItem2.getAccessibleContext().setAccessibleDescription("Wyloguj mnie z systemu.");
-        mainMenu.add(menuItem1);
+       // mainMenu.add(menuItem1);
         mainMenu.add(menuItem2);
 
         menuBar.add(mainMenu);
@@ -105,5 +106,24 @@ public class CustomerGui extends JFrame{
 
         BtAccountOptions.setActionCommand("Opcje Konta");
         BtAccountOptions.addActionListener(CustomerController);
+    }
+    public void setRecOfferList(ResultSet DBList){
+        DefaultListModel list = new DefaultListModel();
+        try{
+            while(true)
+            {
+                if(DBList.next())
+                {
+                    String str = "Branża: " + DBList.getString(1) + " Stanowisko: " + DBList.getString(2) + " Wynagrodzenie: " + DBList.getString(3) +
+                            "Opis: " + DBList.getString(4);
+                    list.addElement(str);
+                    RecOfferList.setModel(list);
+                }
+                else
+                    break;
+            }
+        } catch(Exception e){
+            System.out.println(e);
+        }
     }
 }

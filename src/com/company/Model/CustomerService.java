@@ -2,6 +2,7 @@ package com.company.Model;
 
 import com.company.ErrorType;
 
+import javax.swing.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -31,11 +32,11 @@ public class CustomerService {
             if(rs.next()) // przejscie do kolejnego wiersza poniewaz standardowo zwracane s¹ informacje z wiersza '0'
                 user_pass_in_db=rs.getString("user_pw");
         } catch (SQLException ex) {
-            Logger lgr = Logger.getLogger(CustomerService.class.getName());
+            Logger lgr = Logger.getLogger(CustomerService.class.getName());//
             lgr.log(Level.SEVERE, ex.getMessage(), ex);
             return ErrorType.ErrTypes.UNKNOWN_ERROR;
         }
-        if(!user_pass_in_db.equals("")) {
+        if(user_pass_in_db.length()>0) {
             PasswordService haslo = new PasswordService();
             try {
                 haslo.CheckPassword(OldPass, user_pass_in_db);
@@ -46,8 +47,10 @@ public class CustomerService {
                 if(pascheck.CheckPassMatch(NewPass, NewPass2)!= ErrorType.ErrTypes.NO_ERRORS)
                     return ErrorType.ErrTypes.PASSWORD_DOESNT_MATCH;
                 else{
-                    String sql_query = "UPDATE `uzytkownik` SET `user_pw`='"+NewPass+"' WHERE `user_pw`='"+OldPass+"';";
+                    String sql_query = "UPDATE uzytkownik SET user_pw='"+PasswordService.encrypt(NewPass)+"' WHERE user_pw='"+PasswordService.encrypt(OldPass)+"' AND user_login='"+user_login+"'";
                     PreparedStatement prepStmt = ActualConnection.prepareStatement(sql_query);
+                    prepStmt.execute();
+                    JOptionPane.showMessageDialog(null, "Hasło zostało zmienione, możesz się zalogować korzystając z nowego hasła. :)", "Komunikat", JOptionPane.INFORMATION_MESSAGE);
                 }
             } catch (Exception e){
                     return ErrorType.ErrTypes.WRONG_PASSWORD;
@@ -68,5 +71,33 @@ public class CustomerService {
     }
     public Connection GetConnection(){
         return ActualConnection;
+    }
+    public ResultSet getOffers() {
+        int user_id=0;
+        try {
+            System.out.println("Pobieram zaproponowane oferty z bazy danych...");
+            ResultSet rs = null;
+            String sql_query = "SELECT id_klient FROM klient, uzytkownik WHERE klient.user_id=uzytkownik.user_id AND uzytkownik.user_login=?";
+            PreparedStatement prepStmt = ActualConnection.prepareStatement(sql_query);
+            prepStmt.setString(1, user_login);
+            rs = prepStmt.executeQuery();
+            if(rs.next())
+                user_id = rs.getInt(1);
+            rs = null;
+            sql_query = "SELECT nazwa_branzy, nazwa_stanowiska, wynagrodzenie, opis FROM " +
+                    "zaproponowana_oferta, oferta_pracy, branza, stanowisko WHERE " +
+                    "zaproponowana_oferta.id_klient=? AND " +
+                    "oferta_pracy.id_oferty=zaproponowana_oferta.id_oferta_pracy AND " +
+                    "oferta_pracy.id_branza=branza.id_branza AND " +
+                    "stanowisko.id_stanowiska=oferta_pracy.id_stanowisko";
+            prepStmt = ActualConnection.prepareStatement(sql_query);
+            prepStmt.setInt(1, user_id);
+            rs = prepStmt.executeQuery();
+            return rs;
+        } catch (SQLException ex) {
+            Logger lgr = Logger.getLogger(Model.class.getName());
+            lgr.log(Level.SEVERE, ex.getMessage(), ex);
+        }
+        return null;
     }
 }

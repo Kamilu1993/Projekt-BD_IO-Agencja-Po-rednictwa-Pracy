@@ -35,7 +35,7 @@ public class AdminController implements ActionListener{
             Controller MainController = new Controller(new Login(), new Model());
         }
         if(e.getActionCommand().equals("ODSWIEZ")) {
-            System.out.println("Od�wie�am...");
+            System.out.println("Odświeżam...");
             Admin_Gui.setUsers(Admin_Service.getUsers());
         }
         if(e.getActionCommand().equals("USUN")){
