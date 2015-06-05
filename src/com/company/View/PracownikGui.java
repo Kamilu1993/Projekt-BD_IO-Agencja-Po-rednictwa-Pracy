@@ -1,4 +1,6 @@
 package com.company.View;
+import com.company.ErrorType;
+import com.company.Model.CVService.CVService;
 import com.company.View.Customer.CustomerGui;
 
 import javax.swing.*;
@@ -7,6 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -60,7 +64,7 @@ public class PracownikGui extends JFrame{
         setLocationRelativeTo(null);
         setContentPane(Panelek);
         setResizable(false);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Panel pracownika: zarzadzanie ofertami pracy");
         setContentPane(new JLabel(new ImageIcon(Login.class.getResource("Images/pink2.jpg"))));
 
@@ -82,11 +86,13 @@ public class PracownikGui extends JFrame{
         Skasuj();
         Cyfry();
 
+        setOffers();
+
 
         Zamykanko.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (e.getActionCommand().equals("Zamknij")) {
-                    System.exit(0);
+                    dispose();
                 }
             }
         });
@@ -260,6 +266,39 @@ public class PracownikGui extends JFrame{
         Skasuj.setSize(200, 25);
         Skasuj.setLocation(350, 70);
         add(Skasuj);
+    }
+    private void setOffers(){
+        ResultSet rs = null;
+        try {
+            PreparedStatement pst = null;
+            String sql_query = "SELECT id_oferty, user_login FROM oferta_pracy, administrator, uzytkownik WHERE" +
+                    " administrator.id_administrator=oferta_pracy.id_administrator AND administrator.user_id=uzytkownik.user_id";
+            pst = ActualConnection.prepareStatement(sql_query);
+            pst.execute();
+            rs = pst.getResultSet();
+        } catch (SQLException ex) {
+                Logger lgr = Logger.getLogger(CVService.class.getName());
+                lgr.log(Level.SEVERE, ex.getMessage(), ex);
+                ErrorType er = new ErrorType();
+                er.Error_ = ErrorType.ErrTypes.ALREADY_DELETED;
+                ShowMessage msg = new ShowMessage();
+                msg.setErrorType(er);
+                msg = null;
+                er = null;
+            }
+        while(true){
+            try{
+                if(rs.next()){
+                    tytulyDoUsuniecia.addItem("ID:"+rs.getInt(1)+" Dodana przez:"+rs.getString(2));
+                }
+                else
+                    break;
+            }catch(SQLException ex){
+                Logger lgr = Logger.getLogger(CVService.class.getName());
+                lgr.log(Level.SEVERE, ex.getMessage(), ex);
+            }
+
+        }
     }
 }
 

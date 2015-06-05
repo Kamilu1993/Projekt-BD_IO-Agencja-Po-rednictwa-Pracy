@@ -428,7 +428,7 @@ public class CVSummation extends JFrame{
                     ExperiencePanel.add(basic, c);
                     label_oy++;
                 }
-                else if(Table.get(i).getStartDate()!=null) {
+                if(Table.get(i).getStartDate()!=null) {
                     Labels = "Data rozpoczęcia: ";
                     basic = new JLabel(Labels, SwingConstants.RIGHT);
                     basic.setFont(new Font("Serif", Font.PLAIN, fontsize));
@@ -449,7 +449,7 @@ public class CVSummation extends JFrame{
                     ExperiencePanel.add(basic, c);
                     label_oy++;
                 }
-                else if(Table.get(i).getEndDate()!=null) {
+                if(Table.get(i).getEndDate()!=null) {
                     Labels = "Data zakończenia: ";
                     basic = new JLabel(Labels, SwingConstants.RIGHT);
                     basic.setFont(new Font("Serif", Font.PLAIN, fontsize));
@@ -500,7 +500,7 @@ public class CVSummation extends JFrame{
                 label_oy++;
 
                if(Table.get(i).getStartDate()!= null) {
-                    basic = new JLabel("Data rozpoczęcia", SwingConstants.RIGHT);
+                    basic = new JLabel("Data rozpoczęcia: ", SwingConstants.RIGHT);
                     basic.setFont(new Font("Serif", Font.PLAIN, fontsize));
                     c = new GridBagConstraints();
                     c.fill = GridBagConstraints.HORIZONTAL;
@@ -519,7 +519,7 @@ public class CVSummation extends JFrame{
                     CoursesPanel.add(basic, c);
                     label_oy++;
                 }
-                else if(Table.get(i).getEndDate()!= null) {
+                if(Table.get(i).getEndDate()!= null) {
                     Labels = "Data zakończenia: ";
                     basic = new JLabel(Labels, SwingConstants.RIGHT);
                     basic.setFont(new Font("Serif", Font.PLAIN, fontsize));

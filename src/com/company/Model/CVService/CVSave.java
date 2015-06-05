@@ -96,6 +96,19 @@ public class CVSave {
                         document.add(new Paragraph("       Stopień zaawansowania: " + Experience.get(i).getPosition(), font));
                 }
             }
+            if(Courses.size()>0) {
+                font = new com.itextpdf.text.Font(bf, 16);
+                document.add(new Paragraph("Kursy: ", font));
+                font = new com.itextpdf.text.Font(bf, 14);
+                for (int i = 0; i < Courses.size(); i++) {
+                    if(Courses.get(i).getName()!=null)
+                        document.add(new Paragraph("       Nazwa: " + Courses.get(i).getName(), font));
+                    if (Courses.get(i).getStartDate()!=null)
+                        document.add(new Paragraph("       Data rozpoczęcia: " + Courses.get(i).getStartDate().toString(), font));
+                    if (Courses.get(i).getEndDate()!=null)
+                        document.add(new Paragraph("       Data zakończenia: " + Courses.get(i).getEndDate().toString(), font));
+                }
+            }
             if(Interest.size()>0) {
                 font = new com.itextpdf.text.Font(bf, 16);
                 document.add(new Paragraph("Zainteresowania: ", font));

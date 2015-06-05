@@ -34,12 +34,15 @@ public class CustomerGui extends JFrame{
     private JLabel OffersLabel;
     private JButton BtShowAllOffers;
     private JScrollPane ScrollPane;
+    private JPanel LogoPanel;
+    private JButton BtRefresh;
+    private JButton BtShowDetails;
     private Login LoginFrame;
 
     public CustomerGui(String login, Login loginF){
         LoginFrame = loginF;
         HelloUser.setText("     Witaj " + login + "! :)");
-        setTitle("Agencja pośrednictwa pracy v. 0.23");
+        setTitle("Agencja pośrednictwa pracy v. 1.0");
         setMinimumSize(new Dimension(650,550));
         setResizable(false);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -78,9 +81,21 @@ public class CustomerGui extends JFrame{
         DataPanel.setLocation(500 / 4 - 120, 460);
         add(DataPanel);
 
-        RecOffersPanel.setSize(350,400);
+        RecOffersPanel.setSize(400,400);
         RecOffersPanel.setLocation(getWidth()/2 - 100, 10);
         add(RecOffersPanel);
+
+        LogoPanel.setSize(205,165);
+        LogoPanel.setLocation(getWidth()/2 - 320, 280);
+        add(LogoPanel);
+
+        BtRefresh.setSize(400,25);
+        BtRefresh.setLocation(getWidth()/2 - 100, 460);
+        add(BtRefresh);
+
+        BtShowDetails.setSize(400,25);
+        BtShowDetails.setLocation(getWidth()/2 - 100, 420);
+        add(BtShowDetails);
 
         ScrollPane.setViewportView(RecOfferList);
     }
@@ -106,6 +121,12 @@ public class CustomerGui extends JFrame{
 
         BtAccountOptions.setActionCommand("Opcje Konta");
         BtAccountOptions.addActionListener(CustomerController);
+
+        BtRefresh.setActionCommand("CustomerGUI - odswiez");
+        BtRefresh.addActionListener(CustomerController);
+
+        BtShowDetails.setActionCommand("CustomerGUI - pokaz szczegoly");
+        BtShowDetails.addActionListener(CustomerController);
     }
     public void setRecOfferList(ResultSet DBList){
         DefaultListModel list = new DefaultListModel();
@@ -115,7 +136,7 @@ public class CustomerGui extends JFrame{
                 if(DBList.next())
                 {
                     String str = "Branża: " + DBList.getString(1) + " Stanowisko: " + DBList.getString(2) + " Wynagrodzenie: " + DBList.getString(3) +
-                            "Opis: " + DBList.getString(4);
+                            " Opis: " + DBList.getString(4);
                     list.addElement(str);
                     RecOfferList.setModel(list);
                 }

@@ -84,7 +84,7 @@ public class ShowMessage {
                         " z tego działu puste</html>");
                 break;
             case WRONG_DATE_FORMAT:
-                ErrorMessage("Proszę podać datę w formacie: TUTAJ FORMAT");
+                ErrorMessage("Proszę podać datę w formacie: RRRR-MM-DD");
                 break;
             case NO_ERRORS:
                 break;

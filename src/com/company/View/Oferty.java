@@ -32,7 +32,7 @@ public class Oferty extends JFrame {
         setResizable(false);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setTitle("Aktualne oferty");
-        setContentPane(new JLabel(new ImageIcon(CustomerGui.class.getResource("Images/pink.jpg"))));
+        setContentPane(new JLabel(new ImageIcon(Login.class.getResource("Images/pink.jpg"))));
 
         Off();
         box();
@@ -48,7 +48,7 @@ public class Oferty extends JFrame {
         close.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (e.getActionCommand().equals("<html><center>Zamknij</center></html>")) {
-                    System.exit(0);
+                    dispose();
                 }
             }
         });

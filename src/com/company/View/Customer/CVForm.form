@@ -152,16 +152,6 @@
               <grid row="14" column="2" row-span="2" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
             </constraints>
           </vspacer>
-          <hspacer id="390b9">
-            <constraints>
-              <grid row="4" column="3" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-            </constraints>
-          </hspacer>
-          <hspacer id="6af38">
-            <constraints>
-              <grid row="9" column="3" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-            </constraints>
-          </hspacer>
           <grid id="4f935" binding="WorkExperiancePanel" layout-manager="GridBagLayout">
             <constraints>
               <grid row="12" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
@@ -225,7 +215,7 @@
           </component>
           <grid id="b4995" binding="SkillsPanel" layout-manager="GridBagLayout">
             <constraints>
-              <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <opaque value="false"/>
@@ -269,15 +259,6 @@
               <text value="&lt;html&gt;Niektóre z działów np. &quot;Edukacja&quot; są opcjonalne, jeżeli jednak zdecydujemy się&lt;br&gt; coś do nich wpisać, to należy uzupełnić wszystkie pola oznaczone *&lt;br&gt; lub pozostawić je puste.&lt;/html&gt;"/>
             </properties>
           </component>
-          <grid id="2e2d1" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-            <margin top="0" left="0" bottom="0" right="0"/>
-            <constraints>
-              <grid row="5" column="3" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="9" fill="0" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties/>
-            <border type="none"/>
-            <children/>
-          </grid>
           <grid id="c8d02" binding="EducationPanel" layout-manager="GridBagLayout">
             <constraints>
               <grid row="9" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
@@ -338,6 +319,51 @@
               <grid row="11" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
             </constraints>
           </vspacer>
+          <grid id="81bf3" layout-manager="GridBagLayout">
+            <constraints>
+              <grid row="4" column="3" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="9" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties/>
+            <border type="line"/>
+            <children>
+              <component id="2cb30" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="0" use-parent-layout="false"/>
+                  <gridbag weightx="1.0" weighty="1.0"/>
+                </constraints>
+                <properties>
+                  <icon value="com/company/View/Images/logobig.jpg"/>
+                  <text value=""/>
+                  <verticalAlignment value="0"/>
+                  <verticalTextPosition value="0"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+          <scrollpane id="dde66">
+            <constraints>
+              <grid row="9" column="3" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="9" fill="0" indent="0" use-parent-layout="false">
+                <minimum-size width="-1" height="180"/>
+                <preferred-size width="-1" height="180"/>
+                <maximum-size width="-1" height="180"/>
+              </grid>
+            </constraints>
+            <properties>
+              <background color="-1"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <component id="6a3ec" class="javax.swing.JLabel">
+                <constraints/>
+                <properties>
+                  <background color="-1"/>
+                  <text value="&lt;html&gt;&lt;b&gt;Jak NIE pisać swojego CV.&lt;br&gt;&lt;/b&gt;  &lt;b&gt;Zdjęcie&lt;/b&gt; – uwierzcie, że w przysyłanych przez kandydatów CV zdarzają się zdjęcia ślubne, &lt;br&gt;z imprez z alkoholem widocznym w tle albo takie, które zastanawiają czy &lt;br&gt;osoba na zdjęciu ma na sobie bluzkę czy kostium kąpielowy. Takich zdjęć nie wklejamy. &lt;br&gt;CV to oficjalny dokument, więc pokażmy profesjonalne zdjęcie – podobne do tych,&lt;br&gt; które mamy w dowodzie albo legitymacji. PS. Sweet focie też nie są mile widziane.&lt;br&gt; &lt;b&gt;Klęska urodzaju&lt;/b&gt; – czyli za dużo informacji. To, że ktoś ma za sobą kurs operatora koparki albo,&lt;br&gt; że kiedyś pracował jako recepcjonista nie przyda się &lt;br&gt;na stanowisku Kierownika Sprzedaży. Nie warto pisać informacji, które nie mają nic wspólnego ze &lt;br&gt;stanowiskiem, na które aplikujemy. Rekruter w gąszczu informacji może nie zauważyć tych najważniejszych.&lt;br&gt;    &lt;b&gt;Niedobór informacji&lt;/b&gt; – Pamiętaj, że jak napiszesz za mało, ograniczysz się na przykład tylko do stanowisk,&lt;br&gt; które obejmowałeś to rekruterowi to nic nie powie. &lt;br&gt;Musisz wypisać dokładnie czym się zajmowałeś i najlepiej, &lt;br&gt;żeby Twoje obowiązki odpowiadały opisowi stanowiska, na które aplikujesz. &lt;br&gt;Możesz też podkreślić najważniejsze rzeczy, które są z nim zbieżne.&lt;br&gt;    &lt;b&gt;Nie rób z CV choinki&lt;/b&gt; – jeśli chcesz coś wyróżnić, pogrubić,&lt;br&gt; podkreślić to  rób to konsekwentnie. Przejrzysta forma jest bardzo ważna. &lt;br&gt;Jeśli zastosujesz kilka rodzajów czcionek, kolorów, pogrubień to Twoje CV przestanie być czytelne.   &lt;br&gt;&lt;b&gt;Jedna wersja CV&lt;/b&gt; – Nie przykuwasz uwagi, jeśli treść Twojego CV nie jest zbieżna z ofertą pracy. &lt;br&gt;Nawet jeśli szukasz w jednej branży, to opisy stanowisk są różne,&lt;br&gt; warto więc zmieniać CV w zależności od wymogów danego stanowiska. Czasem wystarczy zmiana &lt;br&gt;kolejności obowiązków, by te na najważniejsze z punktu widzenia oferty pracy były na samym początku.&lt;br&gt;&lt;br&gt; Jeśli więc chcesz zwiększyć swój sukces w poszukiwaniu pracy,&lt;br&gt; zwróć uwagę na wyżej wymienione podpowiedzi. &lt;br&gt;Pamiętaj o zdjęciu, złotym środku w ilości informacji o Tobie,&lt;br&gt; dopasowaniu CV pod ofertę i przejrzystej formie prezentowanej treści. &lt;br&gt;Te proste zasady naprawdę pomagają – sprawdź je na sobie!&lt;/html&gt;"/>
+                  <verticalAlignment value="1"/>
+                  <verticalTextPosition value="1"/>
+                </properties>
+              </component>
+            </children>
+          </scrollpane>
         </children>
       </grid>
     </children>

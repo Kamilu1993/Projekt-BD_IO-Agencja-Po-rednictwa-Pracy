@@ -56,6 +56,9 @@ public class CustomerController implements ActionListener {
             AddCVForm.setVisible(true);
             AddCVForm.addController(this);
         }
+        else if(e.getActionCommand().equals("CustomerGUI - odswiez")){
+            Customer_GUI.setRecOfferList(Customer_SERVICE.getOffers());
+        }
         //---------------------------------------------------------------------------
         // ------------------ NOWE CV -----------------------------------------------
         else if(e.getActionCommand().equals("CV - ANULUJ")) {
