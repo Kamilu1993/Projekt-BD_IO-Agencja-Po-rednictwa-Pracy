@@ -7,6 +7,7 @@ import com.company.Model.CVService.CVService;
 import com.company.Model.CVService.InputCheck;
 import com.company.Model.CustomerService;
 import com.company.Model.Model;
+import com.company.Model.UsersService.UserDelete;
 import com.company.View.*;
 import com.company.View.AccountSettings;
 import com.company.View.Customer.CVForm;
@@ -142,6 +143,29 @@ public class CustomerController implements ActionListener {
             ErrorMsg.setErrorType(er);
         } else if (e.getActionCommand().equals("ZmienEmail")){
             System.out.println("Nacisnieto przycisk zmien email");
+            ErrorType er = new ErrorType();
+            if(SettingsForm.getEmail().length()>0){
+            er.Error_ = InputCheck.CheckUserEmail(SettingsForm.getEmail(), Customer_SERVICE.GetConnection());
+            if(er.Error_== ErrorType.ErrTypes.EMAIL_ALREADY_EXIST)
+                ErrorMsg.setErrorType(er);
+            er.Error_ = InputCheck.CheckUserEmailInput(SettingsForm.getEmail());
+            if(er.Error_ == ErrorType.ErrTypes.EMAIL_WRONG_INPUT) {
+                ErrorMsg.setErrorType(er);
+            }
+            if(er.Error_ == ErrorType.ErrTypes.NO_ERRORS)
+                    Customer_SERVICE.ChangeEmail(SettingsForm.getEmail());
+            }
+            else{
+                er.Error_ = ErrorType.ErrTypes.EMPTY_EMAIL;
+                ErrorMsg.setErrorType(er);
+            }
+        } else if(e.getActionCommand().equals("UsunKonto")){
+            System.out.println("Usuwam konto...");
+            UserDelete.MarkUser(Customer_SERVICE.getUserID(), Customer_SERVICE.GetConnection());
+            Customer_GUI.HideCGUI();
+            Customer_GUI = null;
+            Customer_SERVICE = null;
+            Controller MainController = new Controller(new Login(), new Model());
         }
         //----------------------------------------------------------------------
         //endregion

@@ -189,7 +189,7 @@ public class CVSend {
                 String sql_query = "INSERT INTO umiejetnosc(nazwa_umiejetnosci, stopien_zaawansowania) VALUES(?, ?)";
                 pst = ActualConnection.prepareStatement(sql_query, PreparedStatement.RETURN_GENERATED_KEYS);
                 pst.setString(1, Table.get(i).getName());
-                if (Table.get(i).getGrade().length()>0)
+                if (Table.get(i).getGrade()!=null)
                     pst.setString(2, Table.get(i).getGrade());
                 else
                     pst.setString(2,null);

@@ -1,5 +1,4 @@
 package com.company.Model;
-import com.company.Model.UsersService.UserDelete;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static com.company.Model.UsersService.UserDelete.*;
 
 /**
  * Created by Jan on 2015-05-27.
@@ -32,7 +33,7 @@ public class AdminService {
         return rs;
     }
     public void DeleteUser(String UserID){
-        UserDelete.MarkUser(UserID, ActualConnection);
+        MarkUser(UserID, ActualConnection);
     }
 
 }

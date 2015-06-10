@@ -16,6 +16,7 @@ public class AccountSettings extends JFrame {
     private JTextField NewEmail;
     private JButton ChangeEmail;
     private JPanel MainContainer;
+    private JButton DeleteAccount;
 
     public AccountSettings(){
         setLocationRelativeTo(null);
@@ -30,10 +31,13 @@ public class AccountSettings extends JFrame {
         ChangePass.addActionListener(object);
         ChangeEmail.setActionCommand("ZmienEmail");
         ChangeEmail.addActionListener(object);
+        DeleteAccount.setActionCommand("UsunKonto");
+        DeleteAccount.addActionListener(object);
     }
     public String getOldPass(){
         return String.valueOf(OldPass.getPassword());
     }
     public String getNewPass(){return String.valueOf(NewPass.getPassword());}
     public String getNewPass2(){ return String.valueOf(NewPass2.getPassword());}
+    public String getEmail() {return NewEmail.getText();}
 }

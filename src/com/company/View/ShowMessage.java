@@ -86,6 +86,9 @@ public class ShowMessage {
             case WRONG_DATE_FORMAT:
                 ErrorMessage("Proszę podać datę w formacie: RRRR-MM-DD");
                 break;
+            case PAYMENT_NOT_NUMBER:
+                ErrorMessage("Proszę podać wynagrodzenie w formie liczbowej.");
+                break;
             case NO_ERRORS:
                 break;
             default:

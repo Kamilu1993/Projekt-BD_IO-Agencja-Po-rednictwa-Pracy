@@ -89,6 +89,7 @@ public class Controller implements ActionListener, KeyListener{
                                 break;
                             case THIS_IS_EMPLOYEE_ACC:
                                 PracownikGui.Prepare(theModel.GetConnection(), theLogin.GetUsername());
+                                AktualizacjaOfert.Prep(theLogin.GetUsername(), theModel.GetConnection());
                                 PracownikInc gui = new PracownikInc(); // INC !!!
                                 gui.setVisible(true);
                                 theLogin.HideLoginFrame();
@@ -108,6 +109,7 @@ public class Controller implements ActionListener, KeyListener{
         }
         else
             ErrorMsg.setErrorType(isError);
+        info.HideDialog();
     }
 
     public void actionPerformed(ActionEvent e) {

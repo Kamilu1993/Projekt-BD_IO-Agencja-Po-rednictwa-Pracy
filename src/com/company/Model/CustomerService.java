@@ -1,6 +1,7 @@
 package com.company.Model;
 
 import com.company.ErrorType;
+import com.company.Model.CVService.InputCheck;
 
 import javax.swing.*;
 import java.sql.Connection;
@@ -72,6 +73,21 @@ public class CustomerService {
     public Connection GetConnection(){
         return ActualConnection;
     }
+    public String getUserID(){
+        ResultSet rs = null;
+        try {
+
+            String sql_query = "SELECT user_id FROM uzytkownik WHERE user_login='"+user_login+"'";
+            PreparedStatement prepStmt = ActualConnection.prepareStatement(sql_query);
+            rs = prepStmt.executeQuery();
+            if(rs.next())
+                return rs.getString(1);
+            }
+         catch (Exception e){
+             System.out.println("Wystąpił błąd przy obieraniu ID użytkownika...");
+        }
+        return null;
+    }
     public ResultSet getOffers() {
         int user_id=0;
         try {
@@ -99,5 +115,19 @@ public class CustomerService {
             lgr.log(Level.SEVERE, ex.getMessage(), ex);
         }
         return null;
+    }
+    public void ChangeEmail(String NewEmail){
+
+        try {
+            System.out.println("Zmieniam EMAIL...");
+            String sql_query = "UPDATE uzytkownik SET email=? WHERE user_login=?";
+            PreparedStatement prepStmt = ActualConnection.prepareStatement(sql_query);
+            prepStmt.setString(1, NewEmail);
+            prepStmt.setString(2, user_login);
+            prepStmt.execute();
+        } catch (SQLException ex) {
+            Logger lgr = Logger.getLogger(Model.class.getName());
+            lgr.log(Level.SEVERE, ex.getMessage(), ex);
+        }
     }
 }

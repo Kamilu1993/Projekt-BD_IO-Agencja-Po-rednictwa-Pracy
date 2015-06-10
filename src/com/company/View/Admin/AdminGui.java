@@ -23,7 +23,6 @@ public class AdminGui extends JFrame {
     private JButton RefreshBt;
     private JButton OptionsBt;
     private JButton wylogujButton;
-    private JButton BanBt;
 
     public AdminGui(String login){
         this.Login = login;

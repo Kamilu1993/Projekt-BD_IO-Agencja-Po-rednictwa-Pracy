@@ -154,6 +154,7 @@ public class CVService {
     public void SaveInterest(ArrayList<JTextField> InterestList){
         for(int i=0;i<InterestList.size();i++) {
             if(InterestList.get(i).getText().length()>0) {
+                InterestRecord = new InterestEntity();
                 InterestRecord.setName(InterestList.get(i).getText());
                 System.out.println("Nazwa: " + InterestRecord.getName());
                 if(InterestRecord.getName().length()>0)

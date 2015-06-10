@@ -18,7 +18,7 @@ public class UserDelete{
     {
         int iID = Integer.parseInt(ID);
         try {
-            System.out.println("Sprawdzam czy uzytkownik o ID: " + ID + " istnieje juø w bazie...");
+            System.out.println("Sprawdzam czy uzytkownik o ID: " + ID + " istnieje ju≈º w bazie...");
             ResultSet rs = null;
             PreparedStatement prepStmt = ActualConnection.prepareStatement("SELECT user_login FROM uzytkownik WHERE user_id = ?");
             prepStmt.setInt(1, iID);
@@ -29,24 +29,19 @@ public class UserDelete{
                 if(role.CheckUserGroup(rs.getString(1), ActualConnection) == ErrorType.ErrTypes.THIS_IS_CUSTOMER_ACC){
                     try {
                         rs = null;
-                        prepStmt = ActualConnection.prepareStatement("DELETE * FROM klient WHERE user_id = ?");
+                        prepStmt = ActualConnection.prepareStatement("DELETE FROM klient WHERE user_id = ?");
                         prepStmt.setInt(1, iID);
-                        rs = prepStmt.executeQuery();
+                        prepStmt.execute();
+                        prepStmt = ActualConnection.prepareStatement("DELETE FROM uzytkownik WHERE user_id = ?");
+                        prepStmt.setInt(1, iID);
+                        prepStmt.execute();
                     }catch (SQLException ex) {
                         Logger lgr = Logger.getLogger(UserDelete.class.getName());
                         lgr.log(Level.SEVERE, ex.getMessage(), ex);
                     }
-
-                    /*rs = null;
-                    prepStmt = ActualConnection.prepareStatement("DELETE FROM uzytkownik WHERE user_id = ?");
-                    prepStmt.setInt(1, iID);
-                    rs = prepStmt.executeQuery();*/
                 }
 
             }
-                /*System.out.println("Uzytkownik o ID: " + ID + " zostal usuniety z bazy danych.");
-            else
-                System.out.println("Podany uzytkownik o ID: " + ID + " nie istnieje w bazie danych.");*/
         }
         catch (SQLException ex) {
             Logger lgr = Logger.getLogger(UserDelete.class.getName());

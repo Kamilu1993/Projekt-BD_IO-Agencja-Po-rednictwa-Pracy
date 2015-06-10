@@ -114,8 +114,8 @@ public class CVSave {
                 document.add(new Paragraph("Zainteresowania: ", font));
                 font = new com.itextpdf.text.Font(bf, 14);
                 String str ="";
-                for (int i = 0; i < Skills.size(); i++) {
-                    if(i == Skills.size()-1) {
+                for (int i = 0; i < Interest.size(); i++) {
+                    if(i == Interest.size()-1) {
                         str += Interest.get(i).getName();
                         break;
                     }

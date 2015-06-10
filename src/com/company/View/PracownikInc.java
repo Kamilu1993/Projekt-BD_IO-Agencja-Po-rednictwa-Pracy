@@ -1,12 +1,9 @@
 package com.company.View;
 
-import com.company.View.Customer.CustomerGui;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
 
 /**
  * Created by Jagoda on 26-05-2015.
@@ -37,7 +34,6 @@ public class PracownikInc extends JFrame {
 
                 if (e.getActionCommand().equals("Zarzadzaj ofertami pracy")) {
                     PracownikGui gui = new PracownikGui();
-
                     gui.setVisible(true);
                 }
             }
@@ -46,6 +42,16 @@ public class PracownikInc extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (e.getActionCommand().equals("Zamknij")) {
                     System.exit(0);
+                }
+            }
+        });
+        Aktualizuj.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if (e.getActionCommand().equals("Aktualizuj oferty pracy")) {
+                    AktualizacjaOfert gui1 = new AktualizacjaOfert();
+                    gui1.setVisible(true);
                 }
             }
         });

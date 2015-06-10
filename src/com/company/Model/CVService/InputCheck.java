@@ -1,12 +1,19 @@
 package com.company.Model.CVService;
 
 import com.company.ErrorType;
+import com.company.Model.Model;
 import com.company.Model.PasswordService;
 
 import javax.swing.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by Bajtas on 2015-05-24.
@@ -249,4 +256,37 @@ public class InputCheck {
         return ErrorType.ErrTypes.NO_ERRORS;
     }
     //endregion
+    public static ErrorType.ErrTypes CheckUserEmail(String email, Connection ActualConnection) {
+        try {
+            System.out.println("Sprawdzam czy email: "+email+" istnieje już w bazie...");
+            ResultSet rs = null;
+            String sql_query = "SELECT email FROM uzytkownik WHERE email=?";
+            PreparedStatement prepStmt = ActualConnection.prepareStatement(sql_query);
+
+            prepStmt.setString(1,email);
+            rs = prepStmt.executeQuery();
+            if(rs.next()) // przejscie do kolejnego wiersza poniewaz standardowo zwracane są informacje z wiersza '0'
+                if(rs.getString("email").equals(email))
+                    return ErrorType.ErrTypes.EMAIL_ALREADY_EXIST;
+        } catch (SQLException ex) {
+            Logger lgr = Logger.getLogger(Model.class.getName());
+            lgr.log(Level.SEVERE, ex.getMessage(), ex);
+            return ErrorType.ErrTypes.UNKNOWN_ERROR;
+        }
+        return ErrorType.ErrTypes.NO_ERRORS;
+    }
+    public static ErrorType.ErrTypes CheckUserEmailInput(String email){
+        //EMAIL
+        System.out.println("Sprawdzanie poprawności adresu email...");
+        String s;
+        s = "@";
+        String s2 = ".", s3 = ".@", s4 = "@.";
+
+        if(!email.contains(s) || !email.contains(s2))
+            return ErrorType.ErrTypes.EMAIL_WRONG_INPUT;
+        if(email.contains(s3) || email.contains(s4))
+            return ErrorType.ErrTypes.EMAIL_WRONG_INPUT;
+        System.out.println("Testy zakończone powodzeniem, rozpoczynam rejestracje...");
+        return ErrorType.ErrTypes.NO_ERRORS;
+    }
 }
